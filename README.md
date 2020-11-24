@@ -23,7 +23,7 @@
       <ul>
         <li><a href="#UCLA Machine Learning School Project">UCLA Machine Learning School Project</a></li>
         <li><a href="#UCLA EDA School Project">UCLA EDA School Project</a></li>
-        <li><a href="#Lodestone Case Study Interview Project">Lodestone Case Study Interview Project</a></li>
+        <li><a href="#Lodestone Interview Case Study Project">Lodestone Interview Case Study Project</a></li>
       </ul>
     </li>
     <li><a href="#license">License</a></li>
@@ -42,16 +42,13 @@
 
 ## Projects
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+### UCLA Machine Learning School Project
 
-### Prerequisites
+### UCLA EDA School Project
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
+### Lodestone Interview Case Study Project
+
+
 
 <!-- LICENSE -->
 ## License
@@ -60,7 +57,5 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 <!-- MARKDOWN LINKS & IMAGES -->
 
-[license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=for-the-badge
 [license-url]: https://raw.githubusercontent.com/xtronaltic/UCLA-Projects/main/LICENSE
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/gaitianpeng
