@@ -3,7 +3,6 @@
 [![MIT License][license-shield]][license-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
-<!-- PROJECT LOGO -->
 <br />
 <p align="center">
   <a href="https://github.com/xtronaltic/UCLA-Projects/blob/main/README.md">
@@ -11,7 +10,6 @@
   </a>
 </p>
 
-<!-- TABLE OF CONTENTS -->
 <details open="open">
   <summary>Table of Contents</summary>
   <ol>
@@ -32,7 +30,7 @@
 
 ## Introduction
 
-* These are some personal school projects that I made when I was studying data science at UCLA. 
+* These are some personal school projects that I made when I was studying data science at UCLA 
 * There are some interview case study projects as well
 
 ### Languages
@@ -46,14 +44,9 @@
 * UCLA EDA School Project
 * Lodestone Interview Case Study Project
 
-
-
-<!-- LICENSE -->
 ## License
 
 Distributed under the MIT License. See `LICENSE` for more information.
-
-<!-- MARKDOWN LINKS & IMAGES -->
 
 [license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=for-the-badge
 [license-url]: https://raw.githubusercontent.com/xtronaltic/UCLA-Projects/main/LICENSE
