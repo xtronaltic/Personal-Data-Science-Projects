@@ -1,4 +1,4 @@
-# UCLA-Projects
+# Personal-Data-Science-Projects
 
 [![MIT License][license-shield]][license-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
@@ -16,7 +16,7 @@
   <summary>Table of Contents</summary>
   <ol>
     <li>
-      <a href="#Info">Info</a>
+      <a href="#Introduction">Introduction</a>
     </li>
     <li>
       <a href="#Projects">Projects</a>
@@ -30,22 +30,17 @@
   </ol>
 </details>
 
-<!-- Info -->
-## Info
+## Introduction
 
-These projects are personal projects that I made while studing data science at UCLA. 
+* These are some personal school projects that I made when I was studying data science at UCLA. 
+* There are some interview case study projects as well
 
-### Built With
+### Languages
 
-This section should list any major frameworks that you built your project using. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
-* [Bootstrap](https://getbootstrap.com)
-* [JQuery](https://jquery.com)
-* [Laravel](https://laravel.com)
+* Python
+* R
 
-
-
-<!-- GETTING STARTED -->
-## Getting Started
+## Projects
 
 This is an example of how you may give instructions on setting up your project locally.
 To get a local copy up and running follow these simple example steps.
