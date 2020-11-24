@@ -30,8 +30,8 @@
 
 ## Introduction
 
-* These are some personal school projects that I made when I was studying data science at UCLA 
-* There are some interview case study projects as well
+* UCLA School projects 
+* Interview projects
 
 ### Languages
 
