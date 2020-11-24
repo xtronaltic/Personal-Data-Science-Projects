@@ -1,0 +1,3 @@
+﻿grill_type,pre_heat_time,fuel_cost_per_meal,market_share,easiness_to_use,life_span_year,initial_investment
+Charcoal,1200,2,0.44,-1,3,91
+Propane,480,1.55,0.64,2,3,139
