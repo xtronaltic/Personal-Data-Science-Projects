@@ -22,9 +22,11 @@
 
 ## Projects
 
-* UCLA Machine Learning School Project
-* UCLA EDA School Project
-* Lodestone Interview Case Study Project
+* UCLA Machine Learning Classification Project (Logistic, K-NN, Naïve Bayes, SVM): Predict the likelihood of a liability customer buying personal loans
+* UCLA Machine Learning LSTM Project (EDA, Time Series, LSTM): Stock market analysis and LSTM for time series forecasting
+* UCLA Feature Engineering Project (EDA, Feature Engineering, K-NN, Random Forest): Predict app ratings on Google play store
+* UCLA Data Visualization Project (EDA, Linear Regression): Finding hidden pattern in YouTuber's monthly revenue
+* Lodestone Interview Case Study Project (EDA, Data Transformation, Parsing complex nested JSON): Grill test
 
 #### Languages
 
