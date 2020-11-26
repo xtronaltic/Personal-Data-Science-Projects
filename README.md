@@ -14,30 +14,22 @@
   <summary>Table of Contents</summary>
   <ol>
     <li>
-      <a href="#Type of projects">Type of projects</a>
-    </li>
-    <li>
       <a href="#Projects">Projects</a>
     </li>
     <li><a href="#license">License</a></li>
   </ol>
 </details>
 
-## Type of projects
-
-* UCLA projects
-* Interview projects
-
-#### Languages
-
-* Python
-* R
-
 ## Projects
 
 * UCLA Machine Learning School Project
 * UCLA EDA School Project
 * Lodestone Interview Case Study Project
+
+#### Languages
+
+* Python
+* R
 
 ## License
 
