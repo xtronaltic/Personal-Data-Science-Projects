@@ -1,9 +1,3 @@
-#################################################
-## Exploratory Data Analysis and Visualization
-## Name: Tianpeng Gai (Leo)
-## Last Modified: Mar 1st, 2020
-#################################################
-
 # Import library
 library(readr)
 library(ggplot2)
