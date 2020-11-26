@@ -14,15 +14,10 @@
   <summary>Table of Contents</summary>
   <ol>
     <li>
-      <a href="#Introduction">Introduction</a>
+      <a href="#Type of projects">Type of projects</a>
     </li>
     <li>
       <a href="#Projects">Projects</a>
-      <ul>
-        <li><a href="#Projects">UCLA Machine Learning Project</a></li>
-        <li><a href="#Projects">UCLA EDA Project</a></li>
-        <li><a href="#Projects">Lodestone Interview Case Study Project</a></li>
-      </ul>
     </li>
     <li><a href="#license">License</a></li>
   </ol>
@@ -34,7 +29,7 @@
 * MBA projects
 * Interview projects
 
-### Languages
+#### Languages
 
 * Python
 * R
