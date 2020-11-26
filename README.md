@@ -19,18 +19,18 @@
     <li>
       <a href="#Projects">Projects</a>
       <ul>
-        <li><a href="#UCLA Machine Learning School Project">Projects</a></li>
-        <li><a href="#UCLA EDA School Project">Projects</a></li>
-        <li><a href="#Lodestone Interview Case Study Project">Projects</a></li>
+        <li><a href="#Projects">UCLA Machine Learning Project</a></li>
+        <li><a href="#Projects">UCLA EDA Project</a></li>
+        <li><a href="#Projects">Lodestone Interview Case Study Project</a></li>
       </ul>
     </li>
     <li><a href="#license">License</a></li>
   </ol>
 </details>
 
-## Introduction
+## Type of projects
 
-* UCLA School projects
+* UCLA projects
 * MBA projects
 * Interview projects
 
