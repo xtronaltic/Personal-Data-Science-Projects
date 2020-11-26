@@ -19,9 +19,9 @@
     <li>
       <a href="#Projects">Projects</a>
       <ul>
-        <li><a href="#UCLA Machine Learning School Project">UCLA Machine Learning School Project</a></li>
-        <li><a href="#UCLA EDA School Project">UCLA EDA School Project</a></li>
-        <li><a href="#Lodestone Interview Case Study Project">Lodestone Interview Case Study Project</a></li>
+        <li><a href="#UCLA Machine Learning School Project">Projects</a></li>
+        <li><a href="#UCLA EDA School Project">Projects</a></li>
+        <li><a href="#Lodestone Interview Case Study Project">Projects</a></li>
       </ul>
     </li>
     <li><a href="#license">License</a></li>
@@ -30,7 +30,8 @@
 
 ## Introduction
 
-* UCLA School projects 
+* UCLA School projects
+* MBA projects
 * Interview projects
 
 ### Languages
