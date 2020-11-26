@@ -11,7 +11,7 @@
 </p>
 
 <details open="open">
-  <summary>Table of Contents</summary>
+  <summary>Contents</summary>
   <ol>
     <li>
       <a href="#Projects">Projects</a>
