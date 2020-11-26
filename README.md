@@ -26,7 +26,6 @@
 ## Type of projects
 
 * UCLA projects
-* MBA projects
 * Interview projects
 
 #### Languages
