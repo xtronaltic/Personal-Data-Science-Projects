@@ -48,6 +48,7 @@
 * Python
 * R
 * SQL
+* VBA
 
 ## License
 
