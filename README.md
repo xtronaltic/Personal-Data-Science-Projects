@@ -23,16 +23,31 @@
 ## Projects
 
 * UCLA Machine Learning Classification Project (Python)
-**a
-* UCLA Machine Learning LSTM Project (EDA, Time Series, LSTM): Stock market analysis and LSTM for time series forecasting
-* UCLA Feature Engineering Project (EDA, Feature Engineering, K-NN, Random Forest): Predict app ratings on Google play store
-* UCLA Data Visualization Project (EDA, Linear Regression): Finding hidden pattern in YouTuber's monthly revenue
-* Lodestone Interview Case Study Project (EDA, Data Transformation, Parsing complex nested JSON): Grill test
+  - Predict the likelihood of a liability customer buying personal loans
+  - Tags: EDA, Logistic Regression, K-NN, Naïve Bayes, SVM
+* UCLA Machine Learning LSTM Project (Python)
+  - Stock market analysis and LSTM for time series forecasting
+  - Tags: EDA, Time Series forecasting , LSTM
+* UCLA Feature Engineering Project (Python)
+  - Predict app ratings on Google play store
+  - Tags: EDA, Data Encoding, Evaluation, K-NN, Random Forest
+* UCLA Data Visualization Project (R)
+  - Finding hidden pattern in YouTuber's monthly revenue
+  - Tags: EDA, Linear Regression, Clustering
+* Facial Recognition Deep Learning Classification Project (Matlab)
+  - Using Matlab for Transfer Learning facial recognition
+  - Tags: Matlab, AlexNet, SGDM
+* SQL Data Analysis
+  - Data Analysis Using Python with SQL
+  - Tags: SQL, Data Analysis
+* Lodestone Interview Case Study Project 
+  - Tags: EDA, Data Transformation, Parsing complex nested JSON
 
 #### Languages
 
 * Python
 * R
+* SQL
 
 ## License
 
