@@ -40,6 +40,8 @@
 * SQL Data Analysis
   - Data Analysis Using Python with SQL
   - Tags: SQL, Data Analysis
+* Excel Dashboard and VBA Automate Descriptive Statistics
+  - Tags: VBA
 * Lodestone Interview Case Study Project 
   - Tags: EDA, Data Transformation, Parsing complex nested JSON
 
