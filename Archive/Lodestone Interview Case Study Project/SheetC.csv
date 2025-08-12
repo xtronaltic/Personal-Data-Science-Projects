@@ -1,0 +1,721 @@
+﻿sample_item_index,item_material,is_frozen,grill_type,thumbs_up_score,guess_grill_correct
+1,Veggie Patty,false,Propane,0,true
+1,Hotdog,false,Propane,0.4,true
+2,Veggie Patty,true,Propane,0.9,true
+3,Veggie Patty,false,Propane,0.8,true
+4,Veggie Patty,true,Propane,0.8,true
+5,Veggie Patty,false,Propane,1.1,true
+6,Veggie Patty,true,Propane,1.2,true
+7,Veggie Patty,false,Propane,0.6,true
+8,Veggie Patty,true,Propane,1,true
+9,Veggie Patty,false,Propane,0.1,true
+10,Veggie Patty,true,Propane,1.1,true
+11,Veggie Patty,false,Propane,0.2,true
+12,Veggie Patty,true,Propane,1.1,true
+13,Veggie Patty,false,Propane,0.9,true
+14,Veggie Patty,true,Propane,0.4,true
+15,Veggie Patty,false,Propane,0.2,true
+4,Veggie Patty,true,Propane,0,true
+5,Veggie Patty,false,Propane,0.5,true
+6,Veggie Patty,true,Propane,0.4,true
+7,Veggie Patty,false,Propane,0.2,false
+8,Veggie Patty,true,Propane,0.1,true
+9,Veggie Patty,false,Propane,0.7,true
+10,Veggie Patty,true,Propane,0.7,false
+11,Veggie Patty,false,Propane,0.7,true
+12,Veggie Patty,true,Propane,0.2,true
+13,Veggie Patty,false,Propane,0.6,true
+14,Veggie Patty,true,Propane,0.6,true
+15,Veggie Patty,false,Propane,0.1,true
+16,Veggie Patty,true,Propane,0.7,true
+17,Veggie Patty,false,Propane,0.2,true
+18,Veggie Patty,true,Propane,0.7,true
+19,Veggie Patty,false,Propane,0.3,false
+20,Veggie Patty,true,Propane,0.7,false
+21,Veggie Patty,false,Propane,0.7,true
+22,Veggie Patty,true,Propane,0,false
+23,Veggie Patty,false,Propane,0.1,true
+24,Veggie Patty,true,Propane,0.2,true
+25,Veggie Patty,false,Propane,0.5,true
+26,Veggie Patty,true,Propane,0.3,true
+27,Veggie Patty,false,Propane,0.5,true
+28,Veggie Patty,true,Propane,0.7,true
+29,Veggie Patty,false,Propane,0.6,true
+30,Veggie Patty,true,Propane,0.3,true
+1,Veggie Patty,false,Propane,1.1,true
+2,Veggie Patty,true,Propane,0.1,true
+3,Veggie Patty,false,Propane,0.2,true
+4,Veggie Patty,true,Propane,1.1,true
+5,Veggie Patty,false,Propane,1.2,true
+6,Veggie Patty,true,Propane,0.7,true
+7,Veggie Patty,false,Propane,0.5,false
+8,Veggie Patty,true,Propane,0,true
+9,Veggie Patty,false,Propane,1.1,true
+10,Veggie Patty,true,Propane,0.1,true
+11,Veggie Patty,false,Propane,0.7,false
+12,Veggie Patty,true,Propane,0.4,true
+13,Veggie Patty,false,Propane,0.1,true
+14,Veggie Patty,true,Propane,0.1,false
+15,Veggie Patty,false,Propane,0.3,true
+16,Veggie Patty,true,Propane,1,true
+17,Veggie Patty,false,Propane,0.4,true
+18,Veggie Patty,true,Propane,0.1,true
+19,Veggie Patty,false,Propane,0.2,true
+20,Veggie Patty,true,Propane,0.8,true
+21,Veggie Patty,false,Propane,0.6,true
+22,Veggie Patty,true,Propane,1.2,true
+23,Veggie Patty,false,Propane,1.1,true
+24,Veggie Patty,true,Propane,1.3,false
+25,Veggie Patty,false,Propane,0.4,true
+26,Veggie Patty,true,Propane,0.9,true
+27,Veggie Patty,false,Propane,1,true
+28,Veggie Patty,true,Propane,0.3,true
+29,Veggie Patty,false,Propane,0.2,true
+30,Veggie Patty,true,Propane,1,true
+1,Veggie Patty,false,Charcoal,0.3,true
+2,Veggie Patty,true,Charcoal,0.3,true
+3,Veggie Patty,false,Charcoal,0.3,true
+4,Veggie Patty,true,Charcoal,0.3,true
+5,Veggie Patty,false,Charcoal,0,true
+6,Veggie Patty,true,Charcoal,0,true
+7,Veggie Patty,false,Charcoal,0.2,true
+2,Veggie Patty,true,Propane,0.8,true
+3,Veggie Patty,false,Propane,0.6,true
+4,Veggie Patty,true,Propane,0.7,true
+5,Veggie Patty,false,Propane,0.4,true
+6,Veggie Patty,true,Propane,0.7,true
+7,Veggie Patty,false,Propane,0.7,true
+8,Veggie Patty,true,Propane,0.1,true
+9,Veggie Patty,false,Propane,0,true
+10,Veggie Patty,true,Propane,0.2,false
+11,Veggie Patty,false,Propane,0.2,true
+12,Veggie Patty,true,Propane,0.8,true
+13,Veggie Patty,false,Propane,0.5,true
+14,Veggie Patty,true,Propane,0.4,true
+15,Veggie Patty,false,Propane,0.3,true
+16,Veggie Patty,true,Propane,0.4,true
+17,Veggie Patty,false,Propane,0.5,true
+18,Veggie Patty,true,Propane,0.4,true
+19,Veggie Patty,false,Propane,0.6,true
+20,Veggie Patty,true,Propane,0.1,true
+21,Veggie Patty,false,Propane,0,true
+22,Veggie Patty,true,Propane,0.2,true
+23,Veggie Patty,false,Propane,0.2,true
+24,Veggie Patty,true,Propane,1,true
+25,Veggie Patty,false,Propane,0.3,false
+26,Veggie Patty,true,Propane,0.1,true
+27,Veggie Patty,false,Propane,0.4,true
+28,Veggie Patty,true,Propane,0.8,true
+29,Veggie Patty,false,Propane,0.9,true
+30,Veggie Patty,true,Propane,0.3,true
+1,Veggie Patty,false,Propane,0.3,true
+2,Veggie Patty,true,Propane,0.1,false
+3,Veggie Patty,false,Propane,0.4,true
+16,Veggie Patty,true,Propane,1,true
+17,Veggie Patty,false,Propane,0.6,true
+18,Veggie Patty,true,Propane,0.6,true
+19,Veggie Patty,false,Propane,0.2,true
+20,Veggie Patty,true,Propane,0.6,true
+21,Veggie Patty,false,Propane,0.9,true
+22,Veggie Patty,true,Propane,0,true
+23,Veggie Patty,false,Propane,1.2,true
+24,Veggie Patty,true,Propane,0.7,true
+25,Veggie Patty,false,Propane,1,true
+26,Veggie Patty,true,Propane,1,false
+27,Veggie Patty,false,Propane,1.1,false
+28,Veggie Patty,true,Propane,0.3,true
+29,Veggie Patty,false,Propane,1.1,true
+30,Veggie Patty,true,Propane,0.2,true
+1,Veggie Patty,false,Propane,0.8,true
+2,Hotdog,true,Propane,0.8,true
+3,Hotdog,false,Propane,0.6,true
+8,Veggie Patty,true,Charcoal,0.1,true
+9,Veggie Patty,false,Charcoal,0,true
+10,Veggie Patty,true,Charcoal,0,true
+11,Veggie Patty,false,Charcoal,0.1,true
+12,Veggie Patty,true,Charcoal,0.4,true
+13,Veggie Patty,false,Charcoal,0,false
+14,Veggie Patty,true,Charcoal,0.3,true
+15,Veggie Patty,false,Charcoal,0.1,true
+16,Veggie Patty,true,Charcoal,0.3,true
+17,Veggie Patty,false,Charcoal,0.2,true
+18,Veggie Patty,true,Charcoal,0.1,true
+19,Veggie Patty,false,Charcoal,0.3,true
+20,Veggie Patty,true,Charcoal,0.4,true
+21,Veggie Patty,false,Charcoal,0.3,false
+22,Veggie Patty,true,Charcoal,0.4,true
+23,Veggie Patty,false,Charcoal,0.3,true
+24,Veggie Patty,true,Charcoal,0.1,true
+25,Veggie Patty,false,Charcoal,0,true
+26,Veggie Patty,true,Charcoal,0,true
+27,Veggie Patty,false,Charcoal,0,true
+28,Veggie Patty,true,Charcoal,0,true
+29,Veggie Patty,false,Charcoal,0.4,true
+30,Veggie Patty,true,Charcoal,0.2,true
+1,Veggie Patty,false,Charcoal,0.4,true
+2,Veggie Patty,true,Charcoal,0.1,true
+3,Veggie Patty,false,Charcoal,0.4,true
+4,Veggie Patty,true,Charcoal,0,true
+5,Veggie Patty,false,Charcoal,0.2,true
+6,Veggie Patty,true,Charcoal,0.1,true
+7,Veggie Patty,false,Charcoal,0,true
+8,Veggie Patty,true,Charcoal,0,true
+9,Veggie Patty,false,Charcoal,0,true
+10,Veggie Patty,true,Charcoal,0.4,false
+11,Veggie Patty,false,Charcoal,0,true
+12,Veggie Patty,true,Charcoal,0,false
+13,Veggie Patty,false,Charcoal,0.1,false
+14,Veggie Patty,true,Charcoal,0,true
+15,Veggie Patty,false,Charcoal,0,true
+16,Veggie Patty,true,Charcoal,0.1,true
+17,Veggie Patty,false,Charcoal,0.4,true
+18,Veggie Patty,true,Charcoal,0.3,true
+19,Veggie Patty,false,Charcoal,0.4,true
+20,Veggie Patty,true,Charcoal,0.3,true
+21,Veggie Patty,false,Charcoal,0,true
+22,Veggie Patty,true,Charcoal,0.1,true
+23,Veggie Patty,false,Charcoal,0,true
+24,Veggie Patty,true,Charcoal,0.1,true
+25,Veggie Patty,false,Charcoal,0.3,true
+26,Veggie Patty,true,Charcoal,0,true
+27,Veggie Patty,false,Charcoal,0.1,true
+28,Veggie Patty,true,Charcoal,0,true
+29,Veggie Patty,false,Charcoal,0.1,true
+30,Veggie Patty,true,Charcoal,0.2,true
+1,Veggie Patty,false,Charcoal,0.1,true
+2,Veggie Patty,true,Charcoal,0.1,true
+3,Veggie Patty,false,Charcoal,0,true
+4,Veggie Patty,true,Charcoal,0,true
+5,Veggie Patty,false,Charcoal,0,false
+6,Veggie Patty,true,Charcoal,0,true
+7,Veggie Patty,false,Charcoal,0,true
+8,Veggie Patty,true,Charcoal,0,true
+9,Veggie Patty,false,Charcoal,0,true
+10,Veggie Patty,true,Charcoal,0.1,true
+11,Veggie Patty,false,Charcoal,0,true
+12,Veggie Patty,true,Charcoal,0,false
+13,Veggie Patty,false,Charcoal,0,true
+14,Veggie Patty,true,Charcoal,0,true
+15,Veggie Patty,false,Charcoal,0,true
+16,Veggie Patty,true,Charcoal,0,true
+17,Veggie Patty,false,Charcoal,0.1,true
+18,Veggie Patty,true,Charcoal,0,true
+19,Veggie Patty,false,Charcoal,0.1,true
+20,Veggie Patty,true,Charcoal,0.1,true
+21,Veggie Patty,false,Charcoal,0,true
+22,Veggie Patty,true,Charcoal,0.1,true
+23,Veggie Patty,false,Charcoal,0.1,true
+24,Veggie Patty,true,Charcoal,0,true
+25,Veggie Patty,false,Charcoal,0,true
+26,Veggie Patty,true,Charcoal,0.1,true
+27,Veggie Patty,false,Charcoal,0,false
+28,Veggie Patty,true,Charcoal,0,true
+29,Veggie Patty,false,Charcoal,0,true
+30,Veggie Patty,true,Charcoal,0.1,true
+1,Veggie Patty,false,Charcoal,0.2,true
+2,Veggie Patty,true,Charcoal,0.4,false
+3,Veggie Patty,false,Charcoal,0.1,true
+4,Veggie Patty,true,Charcoal,0,false
+5,Veggie Patty,false,Charcoal,0.4,true
+6,Veggie Patty,true,Charcoal,0,true
+7,Veggie Patty,false,Charcoal,0.5,true
+8,Veggie Patty,true,Charcoal,0.4,true
+9,Veggie Patty,false,Charcoal,0,true
+10,Veggie Patty,true,Charcoal,0.5,true
+11,Veggie Patty,false,Charcoal,0,true
+12,Veggie Patty,true,Charcoal,0.5,false
+13,Veggie Patty,false,Charcoal,0.2,true
+14,Veggie Patty,true,Charcoal,0.5,false
+15,Veggie Patty,false,Charcoal,0.6,true
+16,Veggie Patty,true,Charcoal,0.2,true
+17,Veggie Patty,false,Charcoal,0.3,true
+18,Veggie Patty,true,Charcoal,0.4,true
+19,Veggie Patty,false,Charcoal,0.2,true
+20,Veggie Patty,true,Charcoal,0.4,true
+21,Veggie Patty,false,Charcoal,0.1,true
+22,Veggie Patty,true,Charcoal,0.2,true
+23,Veggie Patty,false,Charcoal,0.2,true
+24,Veggie Patty,true,Charcoal,0.2,true
+25,Veggie Patty,false,Charcoal,0.6,true
+26,Veggie Patty,true,Charcoal,0.1,true
+27,Veggie Patty,false,Charcoal,0.3,true
+28,Veggie Patty,true,Charcoal,0.5,true
+29,Veggie Patty,false,Charcoal,0.2,true
+30,Veggie Patty,true,Charcoal,0.6,false
+4,Hotdog,true,Propane,0,false
+5,Hotdog,false,Propane,0.2,false
+6,Hotdog,true,Propane,0.4,true
+7,Hotdog,false,Propane,0.3,true
+16,Hotdog,true,Propane,0.4,true
+17,Hotdog,false,Propane,0.9,true
+18,Hotdog,true,Propane,1.1,true
+19,Hotdog,false,Propane,0.2,true
+20,Hotdog,true,Propane,0.3,true
+21,Hotdog,false,Propane,0.7,true
+22,Hotdog,true,Propane,0.1,false
+23,Hotdog,false,Propane,1,true
+24,Hotdog,true,Propane,0.7,false
+25,Hotdog,false,Propane,0.9,true
+26,Hotdog,true,Propane,1,true
+27,Hotdog,false,Propane,1.1,true
+28,Hotdog,true,Propane,0.4,false
+29,Hotdog,false,Propane,0.9,true
+30,Hotdog,true,Propane,0.8,true
+1,Hotdog,false,Propane,1,true
+8,Hotdog,true,Propane,0.8,true
+9,Hotdog,false,Propane,0.7,false
+10,Hotdog,true,Propane,1,true
+11,Hotdog,false,Propane,1.1,true
+12,Hotdog,true,Propane,0.7,true
+13,Hotdog,false,Propane,1.1,true
+14,Hotdog,true,Propane,1.1,true
+15,Hotdog,false,Propane,0.4,true
+2,Hotdog,true,Propane,0.2,true
+3,Hotdog,false,Propane,0.7,true
+4,Hotdog,true,Propane,0.5,true
+5,Hotdog,false,Propane,0.8,true
+6,Hotdog,true,Propane,0.4,true
+7,Hotdog,false,Propane,0.2,true
+8,Hotdog,true,Propane,0.3,true
+9,Hotdog,false,Propane,0.2,true
+10,Hotdog,true,Propane,0.9,true
+11,Hotdog,false,Propane,0.9,true
+12,Hotdog,true,Propane,0.9,true
+13,Hotdog,false,Propane,0.6,true
+14,Hotdog,true,Propane,0.6,true
+15,Hotdog,false,Propane,0.4,true
+16,Hotdog,true,Propane,0.5,true
+17,Hotdog,false,Propane,0.5,false
+18,Hotdog,true,Propane,0.1,true
+19,Hotdog,false,Propane,0.9,true
+20,Hotdog,true,Propane,0.6,true
+21,Hotdog,false,Propane,0.2,true
+22,Hotdog,true,Propane,0.7,true
+23,Hotdog,false,Propane,0.6,true
+24,Hotdog,true,Propane,1,true
+25,Hotdog,false,Propane,0.9,false
+26,Hotdog,true,Propane,0.7,true
+27,Hotdog,false,Propane,0.1,true
+28,Hotdog,true,Propane,0.5,true
+29,Hotdog,false,Propane,1,true
+30,Hotdog,true,Propane,0.2,true
+1,Hotdog,false,Propane,0.3,false
+2,Hotdog,true,Propane,0.7,false
+3,Hotdog,false,Propane,0.4,true
+4,Hotdog,true,Propane,0.1,false
+5,Hotdog,false,Propane,0.1,true
+6,Hotdog,true,Propane,0.1,false
+7,Hotdog,false,Propane,0.6,true
+8,Hotdog,true,Propane,0.8,false
+9,Hotdog,false,Propane,1.1,true
+10,Hotdog,true,Propane,0.8,false
+11,Hotdog,false,Propane,0.5,true
+12,Hotdog,true,Propane,0.7,true
+13,Hotdog,false,Propane,0.3,true
+14,Hotdog,true,Propane,0,true
+15,Hotdog,false,Propane,0.9,true
+16,Hotdog,true,Propane,0.3,true
+17,Hotdog,false,Propane,0.4,true
+18,Hotdog,true,Propane,0.8,true
+19,Hotdog,false,Propane,0.5,false
+20,Hotdog,true,Propane,0.4,true
+21,Hotdog,false,Propane,0.8,true
+22,Hotdog,true,Propane,1.2,true
+23,Hotdog,false,Propane,1.1,true
+24,Hotdog,true,Propane,1.2,true
+25,Hotdog,false,Propane,0.9,true
+26,Hotdog,true,Propane,0.6,true
+27,Hotdog,false,Propane,0.2,true
+28,Hotdog,true,Propane,0.5,true
+29,Hotdog,false,Propane,0,false
+30,Hotdog,true,Propane,0.6,false
+1,Hotdog,false,Propane,0.9,true
+2,Hotdog,true,Propane,0.9,false
+3,Hotdog,false,Propane,0,true
+4,Hotdog,true,Propane,0.3,true
+5,Hotdog,false,Propane,0.2,true
+6,Hotdog,true,Propane,0.3,true
+7,Hotdog,false,Propane,0.2,true
+8,Hotdog,true,Propane,0.9,true
+9,Hotdog,false,Propane,0.7,true
+10,Hotdog,true,Propane,0,true
+11,Hotdog,false,Propane,0,true
+12,Hotdog,true,Propane,0.4,true
+13,Hotdog,false,Propane,0.6,true
+14,Hotdog,true,Propane,0.9,true
+15,Hotdog,false,Propane,0.1,true
+16,Hotdog,true,Propane,0.3,true
+17,Hotdog,false,Propane,1,true
+18,Hotdog,true,Propane,0.3,true
+19,Hotdog,false,Propane,0.3,true
+20,Hotdog,true,Propane,0,true
+21,Hotdog,false,Propane,0.1,true
+22,Hotdog,true,Propane,0,false
+23,Hotdog,false,Propane,0.3,true
+24,Hotdog,true,Propane,1,true
+25,Hotdog,false,Propane,0.2,true
+26,Hotdog,true,Propane,0.8,true
+27,Hotdog,false,Propane,0.1,false
+28,Hotdog,true,Propane,0,true
+29,Hotdog,false,Propane,0.5,true
+30,Hotdog,true,Propane,0.5,false
+1,Hotdog,false,Charcoal,5.1,true
+2,Hotdog,true,Charcoal,5.1,true
+3,Hotdog,false,Charcoal,5,true
+4,Hotdog,true,Charcoal,5.3,true
+5,Hotdog,false,Charcoal,5.1,false
+6,Hotdog,true,Charcoal,5.2,true
+7,Hotdog,false,Charcoal,5.4,true
+8,Hotdog,true,Charcoal,5.2,true
+9,Hotdog,false,Charcoal,5.1,true
+10,Hotdog,true,Charcoal,5.4,true
+11,Hotdog,false,Charcoal,5.2,true
+12,Hotdog,true,Charcoal,5.2,true
+13,Hotdog,false,Charcoal,5.2,true
+14,Hotdog,true,Charcoal,5.1,true
+15,Hotdog,false,Charcoal,5.2,true
+16,Hotdog,true,Charcoal,5.1,true
+17,Hotdog,false,Charcoal,5.3,true
+18,Hotdog,true,Charcoal,5.2,true
+19,Hotdog,false,Charcoal,5.2,true
+20,Hotdog,true,Charcoal,5.3,true
+21,Hotdog,false,Charcoal,5.2,true
+22,Hotdog,true,Charcoal,5.3,true
+23,Hotdog,false,Charcoal,5,true
+24,Hotdog,true,Charcoal,5.4,true
+25,Hotdog,false,Charcoal,5.1,true
+26,Hotdog,true,Charcoal,5.4,true
+27,Hotdog,false,Charcoal,5.2,true
+28,Hotdog,true,Charcoal,5.2,true
+29,Hotdog,false,Charcoal,5.3,true
+30,Hotdog,true,Charcoal,5.3,false
+1,Hotdog,false,Charcoal,5.1,true
+2,Hotdog,true,Charcoal,5,true
+3,Hotdog,false,Charcoal,5,true
+4,Hotdog,true,Charcoal,5.3,true
+5,Hotdog,false,Charcoal,5.3,true
+6,Hotdog,true,Charcoal,5,true
+7,Hotdog,false,Charcoal,5.2,true
+8,Hotdog,true,Charcoal,5.1,true
+9,Hotdog,false,Charcoal,5.2,true
+10,Hotdog,true,Charcoal,5.2,true
+11,Hotdog,false,Charcoal,5.3,true
+12,Hotdog,true,Charcoal,5.3,true
+13,Hotdog,false,Charcoal,5.2,true
+14,Hotdog,true,Charcoal,5.2,true
+15,Hotdog,false,Charcoal,5,true
+16,Hotdog,true,Charcoal,5.3,true
+17,Hotdog,false,Charcoal,5.3,true
+18,Hotdog,true,Charcoal,5.1,true
+19,Hotdog,false,Charcoal,5.1,true
+20,Hotdog,true,Charcoal,5.2,true
+21,Hotdog,false,Charcoal,5.2,true
+22,Hotdog,true,Charcoal,5,true
+23,Hotdog,false,Charcoal,5.1,true
+24,Hotdog,true,Charcoal,5.1,true
+25,Hotdog,false,Charcoal,5.2,true
+26,Hotdog,true,Charcoal,5,true
+27,Hotdog,false,Charcoal,5.3,true
+28,Hotdog,true,Charcoal,5,true
+29,Hotdog,false,Charcoal,5.2,true
+30,Hotdog,true,Charcoal,5,true
+1,Hotdog,false,Charcoal,5.3,true
+2,Hotdog,true,Charcoal,5,true
+3,Hotdog,false,Charcoal,5.2,true
+4,Hotdog,true,Charcoal,5.4,true
+5,Hotdog,false,Charcoal,5.5,true
+6,Hotdog,true,Charcoal,5.4,true
+7,Hotdog,false,Charcoal,5.1,true
+8,Hotdog,true,Charcoal,5,true
+9,Hotdog,false,Charcoal,5.2,true
+10,Hotdog,true,Charcoal,5.5,true
+11,Hotdog,false,Charcoal,5.3,true
+12,Hotdog,true,Charcoal,5.6,true
+13,Hotdog,false,Charcoal,5.4,true
+14,Hotdog,true,Charcoal,5.1,true
+15,Hotdog,false,Charcoal,5.3,true
+16,Hotdog,true,Charcoal,5.6,true
+17,Hotdog,false,Charcoal,5.5,true
+18,Hotdog,true,Charcoal,5,true
+19,Hotdog,false,Charcoal,5.6,true
+20,Hotdog,true,Charcoal,5.2,true
+21,Hotdog,false,Charcoal,5,false
+22,Hotdog,true,Charcoal,5.3,true
+23,Hotdog,false,Charcoal,5.6,true
+24,Hotdog,true,Charcoal,5.1,true
+25,Hotdog,false,Charcoal,5.2,true
+26,Hotdog,true,Charcoal,5.5,true
+27,Hotdog,false,Charcoal,5.6,true
+28,Hotdog,true,Charcoal,5.5,true
+29,Hotdog,false,Charcoal,5,true
+30,Hotdog,true,Charcoal,5,true
+1,Hotdog,false,Charcoal,5.2,true
+2,Hotdog,true,Charcoal,5.2,true
+3,Hotdog,false,Charcoal,5.1,false
+4,Hotdog,true,Charcoal,5,true
+5,Hotdog,false,Charcoal,5.2,false
+6,Hotdog,true,Charcoal,5.2,true
+7,Hotdog,false,Charcoal,5,false
+8,Hotdog,true,Charcoal,5.2,true
+9,Hotdog,false,Charcoal,5.2,true
+10,Hotdog,true,Charcoal,5.2,true
+11,Hotdog,false,Charcoal,5,true
+12,Hotdog,true,Charcoal,5.1,true
+13,Hotdog,false,Charcoal,5.1,true
+14,Hotdog,true,Charcoal,5.1,true
+15,Hotdog,false,Charcoal,5.2,true
+16,Hotdog,true,Charcoal,5.1,true
+17,Hotdog,false,Charcoal,5.2,true
+18,Hotdog,true,Charcoal,5.2,true
+19,Hotdog,false,Charcoal,5.2,true
+20,Hotdog,true,Charcoal,5,true
+21,Hotdog,false,Charcoal,5.1,true
+22,Hotdog,true,Charcoal,5,true
+23,Hotdog,false,Charcoal,5.1,true
+24,Hotdog,true,Charcoal,5.2,true
+25,Hotdog,false,Charcoal,5,true
+26,Hotdog,true,Charcoal,5,true
+27,Hotdog,false,Charcoal,5,true
+28,Hotdog,true,Charcoal,5.1,true
+29,Hotdog,false,Charcoal,5.1,false
+30,Hotdog,true,Charcoal,5.2,true
+1,Ground Beef Patty,false,Propane,5.7,true
+2,Ground Beef Patty,true,Propane,5.2,true
+3,Ground Beef Patty,false,Propane,5.6,true
+4,Ground Beef Patty,true,Propane,5.9,true
+5,Ground Beef Patty,false,Propane,5,true
+6,Ground Beef Patty,true,Propane,5.9,true
+7,Ground Beef Patty,false,Propane,5.5,true
+8,Ground Beef Patty,true,Propane,5.9,true
+9,Ground Beef Patty,false,Propane,5.8,true
+10,Ground Beef Patty,true,Propane,5.2,true
+11,Ground Beef Patty,false,Propane,5.1,true
+12,Ground Beef Patty,true,Propane,5.7,true
+13,Ground Beef Patty,false,Propane,5.8,false
+14,Ground Beef Patty,true,Propane,5.1,true
+15,Ground Beef Patty,false,Propane,5.2,true
+16,Ground Beef Patty,true,Propane,5.6,true
+17,Ground Beef Patty,false,Propane,5.6,true
+18,Ground Beef Patty,true,Propane,5.9,true
+19,Ground Beef Patty,false,Propane,6,true
+20,Ground Beef Patty,true,Propane,5.9,true
+21,Ground Beef Patty,false,Propane,6,true
+22,Ground Beef Patty,true,Propane,5.8,true
+23,Ground Beef Patty,false,Propane,6,true
+24,Ground Beef Patty,true,Propane,6.1,true
+25,Ground Beef Patty,false,Propane,5.5,true
+26,Ground Beef Patty,true,Propane,5.8,true
+27,Ground Beef Patty,false,Propane,5,true
+28,Ground Beef Patty,true,Propane,5.3,true
+29,Ground Beef Patty,false,Propane,5.4,true
+30,Ground Beef Patty,true,Propane,5.7,false
+1,Ground Beef Patty,false,Propane,6,true
+2,Ground Beef Patty,true,Propane,6,true
+3,Ground Beef Patty,false,Propane,5.2,true
+4,Ground Beef Patty,true,Propane,5.4,true
+5,Ground Beef Patty,false,Propane,5.3,true
+6,Ground Beef Patty,true,Propane,5.6,true
+7,Ground Beef Patty,false,Propane,6.1,true
+8,Ground Beef Patty,true,Propane,5.8,true
+9,Ground Beef Patty,false,Propane,5.3,true
+10,Ground Beef Patty,true,Propane,5.2,true
+11,Ground Beef Patty,false,Propane,6,true
+12,Ground Beef Patty,true,Propane,6.2,true
+13,Ground Beef Patty,false,Propane,5.2,true
+14,Ground Beef Patty,true,Propane,5.6,true
+15,Ground Beef Patty,false,Propane,6.1,true
+16,Ground Beef Patty,true,Propane,5.3,true
+17,Ground Beef Patty,false,Propane,5,true
+18,Ground Beef Patty,true,Propane,6.1,true
+19,Ground Beef Patty,false,Propane,6,true
+20,Ground Beef Patty,true,Propane,5.5,true
+21,Ground Beef Patty,false,Propane,5.5,true
+22,Ground Beef Patty,true,Propane,5,true
+23,Ground Beef Patty,false,Propane,6.1,true
+24,Ground Beef Patty,true,Propane,5.5,false
+25,Ground Beef Patty,false,Propane,5.5,true
+26,Ground Beef Patty,true,Propane,5.2,true
+27,Ground Beef Patty,false,Propane,6.2,true
+28,Ground Beef Patty,true,Propane,6.1,true
+29,Ground Beef Patty,false,Propane,5.8,true
+30,Ground Beef Patty,true,Propane,5.1,true
+1,Ground Beef Patty,false,Propane,6.1,true
+2,Ground Beef Patty,true,Propane,5.1,true
+3,Ground Beef Patty,false,Propane,6.2,true
+8,Ground Beef Patty,true,Charcoal,0,true
+9,Ground Beef Patty,false,Charcoal,0,true
+10,Ground Beef Patty,true,Charcoal,0.5,true
+11,Ground Beef Patty,false,Charcoal,0.3,true
+12,Ground Beef Patty,true,Charcoal,0.2,false
+13,Ground Beef Patty,false,Charcoal,0.3,true
+14,Ground Beef Patty,true,Charcoal,0.3,true
+15,Ground Beef Patty,false,Charcoal,0.3,true
+16,Ground Beef Patty,true,Charcoal,0.2,true
+17,Ground Beef Patty,false,Charcoal,0.2,true
+18,Ground Beef Patty,true,Charcoal,0.3,true
+19,Ground Beef Patty,false,Charcoal,0.5,true
+20,Ground Beef Patty,true,Charcoal,0.3,false
+21,Ground Beef Patty,false,Charcoal,0.3,true
+22,Ground Beef Patty,true,Charcoal,0.2,true
+23,Ground Beef Patty,false,Charcoal,0.4,true
+24,Ground Beef Patty,true,Charcoal,0.4,true
+25,Ground Beef Patty,false,Charcoal,0.2,true
+26,Ground Beef Patty,true,Charcoal,0.1,true
+27,Ground Beef Patty,false,Charcoal,0.5,true
+28,Ground Beef Patty,true,Charcoal,0.4,true
+29,Ground Beef Patty,false,Charcoal,0.4,true
+30,Ground Beef Patty,true,Charcoal,0.5,true
+1,Ground Beef Patty,false,Charcoal,0.4,true
+2,Ground Beef Patty,true,Charcoal,0,true
+3,Ground Beef Patty,false,Charcoal,0.1,true
+4,Ground Beef Patty,true,Charcoal,0.3,true
+5,Ground Beef Patty,false,Charcoal,0.4,true
+6,Ground Beef Patty,true,Charcoal,0.1,false
+7,Ground Beef Patty,false,Charcoal,0.2,true
+8,Ground Beef Patty,true,Charcoal,0.4,true
+9,Ground Beef Patty,false,Charcoal,0.4,true
+10,Ground Beef Patty,true,Charcoal,0,true
+11,Ground Beef Patty,false,Charcoal,0.2,true
+12,Ground Beef Patty,true,Charcoal,0.1,true
+13,Ground Beef Patty,false,Charcoal,0.2,true
+14,Ground Beef Patty,true,Charcoal,0.2,true
+15,Ground Beef Patty,false,Charcoal,0.4,true
+16,Ground Beef Patty,true,Charcoal,0.2,false
+17,Ground Beef Patty,false,Charcoal,0.3,true
+18,Ground Beef Patty,true,Charcoal,0,true
+19,Ground Beef Patty,false,Charcoal,0.4,true
+20,Ground Beef Patty,true,Charcoal,0.2,false
+21,Ground Beef Patty,false,Charcoal,0.2,false
+22,Ground Beef Patty,true,Charcoal,0.3,true
+23,Ground Beef Patty,false,Charcoal,0.3,true
+24,Ground Beef Patty,true,Charcoal,0.4,true
+25,Ground Beef Patty,false,Charcoal,0.4,true
+26,Ground Beef Patty,true,Charcoal,0.2,true
+27,Ground Beef Patty,false,Charcoal,0.2,false
+28,Ground Beef Patty,true,Charcoal,0,true
+29,Ground Beef Patty,false,Charcoal,0.1,true
+30,Ground Beef Patty,true,Charcoal,0.2,true
+1,Ground Beef Patty,false,Charcoal,0,false
+2,Ground Beef Patty,true,Charcoal,0.1,true
+3,Ground Beef Patty,false,Charcoal,0.1,true
+4,Ground Beef Patty,true,Charcoal,0,true
+5,Ground Beef Patty,false,Charcoal,0.1,false
+6,Ground Beef Patty,true,Charcoal,0.1,false
+7,Ground Beef Patty,false,Charcoal,0.1,true
+8,Ground Beef Patty,true,Charcoal,0,true
+9,Ground Beef Patty,false,Charcoal,0.1,false
+10,Ground Beef Patty,true,Charcoal,0.1,true
+11,Ground Beef Patty,false,Charcoal,0,true
+12,Ground Beef Patty,true,Charcoal,0,true
+13,Ground Beef Patty,false,Charcoal,0.1,true
+14,Ground Beef Patty,true,Charcoal,0.1,true
+15,Ground Beef Patty,false,Charcoal,0,true
+16,Ground Beef Patty,true,Charcoal,0,true
+17,Ground Beef Patty,false,Charcoal,0,false
+18,Ground Beef Patty,true,Charcoal,0.1,true
+19,Ground Beef Patty,false,Charcoal,0.1,true
+20,Ground Beef Patty,true,Charcoal,0.1,true
+21,Ground Beef Patty,false,Charcoal,0,true
+22,Ground Beef Patty,true,Charcoal,0,true
+23,Ground Beef Patty,false,Charcoal,0,true
+24,Ground Beef Patty,true,Charcoal,0,false
+25,Ground Beef Patty,false,Charcoal,0,false
+26,Ground Beef Patty,true,Charcoal,0.1,true
+27,Ground Beef Patty,false,Charcoal,0.1,false
+28,Ground Beef Patty,true,Charcoal,0.1,true
+29,Ground Beef Patty,false,Charcoal,0,true
+30,Ground Beef Patty,true,Charcoal,0,true
+1,Ground Beef Patty,false,Charcoal,0.2,true
+2,Ground Beef Patty,true,Charcoal,0.1,true
+3,Ground Beef Patty,false,Charcoal,0.2,false
+4,Ground Beef Patty,true,Charcoal,0.1,true
+5,Ground Beef Patty,false,Charcoal,0,true
+6,Ground Beef Patty,true,Charcoal,0,true
+7,Ground Beef Patty,false,Charcoal,0.3,true
+8,Ground Beef Patty,true,Charcoal,0.3,true
+9,Ground Beef Patty,false,Charcoal,0,true
+10,Ground Beef Patty,true,Charcoal,0.2,true
+11,Ground Beef Patty,false,Charcoal,0.3,true
+12,Ground Beef Patty,true,Charcoal,0.2,true
+13,Ground Beef Patty,false,Charcoal,0,true
+14,Ground Beef Patty,true,Charcoal,0.1,true
+15,Ground Beef Patty,false,Charcoal,0,true
+16,Ground Beef Patty,true,Charcoal,0.1,true
+17,Ground Beef Patty,false,Charcoal,0.2,false
+18,Ground Beef Patty,true,Charcoal,0.1,true
+19,Ground Beef Patty,false,Charcoal,0.3,true
+20,Ground Beef Patty,true,Charcoal,0,true
+21,Ground Beef Patty,false,Charcoal,0.1,true
+22,Ground Beef Patty,true,Charcoal,0.1,true
+23,Ground Beef Patty,false,Charcoal,0,true
+24,Ground Beef Patty,true,Charcoal,0.2,true
+25,Ground Beef Patty,false,Charcoal,0.3,true
+26,Ground Beef Patty,true,Charcoal,0.3,true
+27,Ground Beef Patty,false,Charcoal,0.1,false
+28,Ground Beef Patty,true,Charcoal,0.3,true
+29,Ground Beef Patty,false,Charcoal,0.2,true
+30,Ground Beef Patty,true,Charcoal,0,true
+4,Ground Beef Patty,true,Propane,5.4,true
+5,Ground Beef Patty,false,Propane,5.1,true
+6,Ground Beef Patty,true,Propane,6,true
+7,Ground Beef Patty,false,Propane,5.2,true
+8,Ground Beef Patty,true,Propane,5.8,true
+9,Ground Beef Patty,false,Propane,6,true
+10,Ground Beef Patty,true,Propane,5.1,true
+11,Ground Beef Patty,false,Propane,6.1,true
+12,Ground Beef Patty,true,Propane,5.4,true
+13,Ground Beef Patty,false,Propane,5.3,true
+14,Ground Beef Patty,true,Propane,5.3,true
+15,Ground Beef Patty,false,Propane,5.7,true
+16,Ground Beef Patty,true,Propane,6.1,true
+17,Ground Beef Patty,false,Propane,5.9,true
+18,Ground Beef Patty,true,Propane,6.1,true
+19,Ground Beef Patty,false,Propane,5.4,true
+20,Ground Beef Patty,true,Propane,6.3,true
+21,Ground Beef Patty,false,Propane,6,true
+22,Ground Beef Patty,true,Propane,5.6,true
+23,Ground Beef Patty,false,Propane,5.5,true
+24,Ground Beef Patty,true,Propane,6.3,true
+25,Ground Beef Patty,false,Propane,5,false
+26,Ground Beef Patty,true,Propane,6.1,true
+27,Ground Beef Patty,false,Propane,5,true
+28,Ground Beef Patty,true,Propane,5.2,true
+29,Ground Beef Patty,false,Propane,6.1,true
+30,Ground Beef Patty,true,Propane,5.5,true
+1,Ground Beef Patty,false,Propane,5.9,true
+2,Ground Beef Patty,true,Propane,5,true
+3,Ground Beef Patty,false,Propane,5.1,true
+4,Ground Beef Patty,true,Propane,5.7,true
+5,Ground Beef Patty,false,Propane,5.4,true
+6,Ground Beef Patty,true,Propane,5,true
+7,Ground Beef Patty,false,Propane,5,true
+8,Ground Beef Patty,true,Propane,6,true
+9,Ground Beef Patty,false,Propane,5.3,true
+10,Ground Beef Patty,true,Propane,5.3,true
+11,Ground Beef Patty,false,Propane,5.3,true
+12,Ground Beef Patty,true,Propane,5.1,true
+13,Ground Beef Patty,false,Propane,5.8,true
+14,Ground Beef Patty,true,Propane,5.2,true
+15,Ground Beef Patty,false,Propane,5.7,true
+16,Ground Beef Patty,true,Propane,5,true
+17,Ground Beef Patty,false,Propane,5.3,true
+18,Ground Beef Patty,true,Propane,5.2,true
+19,Ground Beef Patty,false,Propane,5.7,true
+20,Ground Beef Patty,true,Propane,6,true
+21,Ground Beef Patty,false,Propane,5.5,true
+22,Ground Beef Patty,true,Propane,5.6,true
+23,Ground Beef Patty,false,Propane,5.3,true
+24,Ground Beef Patty,true,Propane,5.6,true
+25,Ground Beef Patty,false,Propane,5.2,true
+26,Ground Beef Patty,true,Propane,6.2,true
+27,Ground Beef Patty,false,Propane,5.5,true
+28,Ground Beef Patty,true,Propane,6,true
+29,Ground Beef Patty,false,Propane,5.2,true
+30,Ground Beef Patty,true,Propane,5.3,true
+1,Ground Beef Patty,false,Charcoal,0.1,true
+2,Ground Beef Patty,true,Charcoal,0.5,true
+3,Ground Beef Patty,false,Charcoal,0.5,true
+4,Ground Beef Patty,true,Charcoal,0.4,true
+5,Ground Beef Patty,false,Charcoal,0.2,true
+6,Ground Beef Patty,true,Charcoal,0.1,true
+7,Ground Beef Patty,false,Charcoal,0.3,true
