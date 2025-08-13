@@ -6,7 +6,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/xtronaltic/UCLA-Projects/blob/main/README.md">
-    <img src="Archive/Resources/Wave.png" width="1500" height="680">
+    <img src="Archive/Resources/NLP.JEPG" width="1920" height="1080">
   </a>
 </p>
 
