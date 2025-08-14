@@ -7517,9 +7517,9 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Local%E2%80%93Global-Hybrid-Forecasting:-CNN-%E2%86%92-BiLSTM-%E2%86%92-Multi-Head-Attention">Local–Global Hybrid Forecasting: CNN → BiLSTM → Multi-Head Attention<a class="anchor-link" href="#Local%E2%80%93Global-Hybrid-Forecasting:-CNN-%E2%86%92-BiLSTM-%E2%86%92-Multi-Head-Attention">¶</a></h1><p><strong>Goal.</strong></p>
+<h1 id="Local%E2%80%93Global-Hybrid-Forecasting:-CNN-%E2%86%92-BiLSTM-%E2%86%92-Multi-Head-Attention">Local–Global Hybrid Forecasting: CNN → BiLSTM → Multi-Head Attention<a class="anchor-link" href="#Local%E2%80%93Global-Hybrid-Forecasting:-CNN-%E2%86%92-BiLSTM-%E2%86%92-Multi-Head-Attention">¶</a></h1><p><strong>Goal:</strong></p>
 <p>Forecast weekly sales while preserving seasonal shape, and select the most reliable approach via a transparent baseline comparison.</p>
-<p><strong>Method (2-stage).</strong></p>
+<p><strong>Method (2-stage):</strong></p>
 <ol>
 <li><p>Learn a <strong>week-of-year seasonal profile</strong> on the train set; compute <strong>residuals</strong> as:
 $$
@@ -7535,7 +7535,7 @@ $$
 <strong>Note:</strong> Predict residuals with the model, then add the week’s seasonal mean to reconstruct the sales forecast.</p>
 </li>
 </ol>
-<p><strong>Validation &amp; Model Selection (time-series discipline).</strong></p>
+<p><strong>Validation &amp; Model Selection (time-series discipline):</strong></p>
 <ul>
 <li><p><strong>Time-aware</strong> split (no shuffling).</p>
 </li>
@@ -7565,7 +7565,7 @@ $$
 <li><p><strong>Champion</strong> = lowest validation WMAPE (ties → choose the simpler approach).</p>
 </li>
 </ul>
-<p><strong>Deliverables.</strong></p>
+<p><strong>Deliverables:</strong></p>
 <ul>
 <li>Full metrics: <strong>RMSE, MAE, MAPE, WAPE/WMAPE, sMAPE, MASE, ME/MPE, $R^2$</strong>.</li>
 <li>Plots: Actual vs Pred (<strong>Champion</strong>), Residuals over time, Residual histogram, Actual vs Pred scatter, Rolling 13-week WAPE, Zoom last 52 weeks.</li>
@@ -7582,7 +7582,8 @@ $$
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h2 id="Environment-&amp;-Dependencies">Environment &amp; Dependencies<a class="anchor-link" href="#Environment-&amp;-Dependencies">¶</a></h2><p>This project uses a robust set of Python libraries and configurations to ensure efficient data processing, model development, and visualization. Below is an overview of the key dependencies and setup requirements.</p>
-<h3 id="Dependencies">Dependencies<a class="anchor-link" href="#Dependencies">¶</a></h3><ul>
+<p><strong>Dependencies:</strong></p>
+<ul>
 <li><strong>Frameworks</strong>:<ul>
 <li><strong>TensorFlow/Keras</strong>: Core libraries for building, training, and optimizing deep learning models, including convolutional and recurrent neural networks, with support for mixed precision training to enhance performance.</li>
 <li><strong>Keras Tuner</strong>: Utilized for hyperparameter optimization to fine-tune model architectures and training configurations efficiently.</li>
@@ -7603,7 +7604,8 @@ $$
 </ul>
 </li>
 </ul>
-<h3 id="Environment-Setup">Environment Setup<a class="anchor-link" href="#Environment-Setup">¶</a></h3><ul>
+<p><strong>Environment Setup:</strong></p>
+<ul>
 <li><strong>Virtual Environment</strong>: Create a fresh virtual environment to ensure reproducibility and avoid dependency conflicts. Use tools like <code>venv</code> or <code>virtualenv</code> to isolate the project’s dependencies.</li>
 <li><strong>TensorFlow Configuration</strong>:<ul>
 <li>TensorFlow logging is set to <code>ERROR</code> level to minimize console output (<code>TF_CPP_MIN_LOG_LEVEL='2'</code>).</li>
