@@ -1,0 +1,83 @@
+seed: 42
+
+model_name: "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
+tokenizer_name: null
+
+output_dir: "outputs"
+project: "aligntune"
+
+# Acceleration
+unsloth:
+  enable: true         # If true and unsloth is installed, use it for faster LoRA
+  max_seq_len: 4096
+
+# LoRA / QLoRA
+lora:
+  r: 16
+  alpha: 32
+  dropout: 0.05
+  target_modules: ["q_proj","k_proj","v_proj","o_proj","gate_proj","up_proj","down_proj"]
+  qlora: true
+  load_in_4bit: true
+
+# SFT
+sft:
+  train_file: "data/sft/train.jsonl"
+  val_file: "data/sft/val.jsonl"
+  max_steps: 300
+  per_device_train_batch_size: 4
+  per_device_eval_batch_size: 4
+  gradient_accumulation_steps: 4
+  lr: 2e-4
+  warmup_ratio: 0.03
+  max_seq_len: 1024
+  eval_steps: 100
+  save_steps: 100
+  logging_steps: 10
+
+# Preference tuning (shared loader for DPO/SimPO/ORPO)
+pref:
+  train_file: "data/dpo/train.jsonl"
+  val_file: "data/dpo/val.jsonl"
+
+dpo:
+  beta: 0.1
+  max_steps: 300
+  per_device_train_batch_size: 2
+  per_device_eval_batch_size: 2
+  gradient_accumulation_steps: 8
+  lr: 1e-5
+  eval_steps: 100
+  save_steps: 100
+  logging_steps: 10
+
+simpo:
+  gamma: 0.1            # typical scale; adjust as needed
+  max_steps: 300
+  per_device_train_batch_size: 2
+  per_device_eval_batch_size: 2
+  gradient_accumulation_steps: 8
+  lr: 1e-5
+  eval_steps: 100
+  save_steps: 100
+  logging_steps: 10
+
+orpo:
+  lambda: 0.5
+  max_steps: 300
+  per_device_train_batch_size: 2
+  per_device_eval_batch_size: 2
+  gradient_accumulation_steps: 8
+  lr: 1e-5
+  eval_steps: 100
+  save_steps: 100
+  logging_steps: 10
+
+generation:
+  max_new_tokens: 256
+  temperature: 0.7
+  top_p: 0.9
+
+judge_eval:
+  judge_model_name: "TinyLlama/TinyLlama-1.1B-Chat-v1.0"   # swap to a stronger local judge if available
+  prompts_file: "eval/prompts/pairwise_eval.jsonl"

@@ -1,0 +1,5 @@
+{"instruction": "Summarize the key idea in one sentence.", "input": "Parameter‑efficient fine‑tuning (PEFT) adapts large models by training a small set of additional parameters.", "output": "PEFT tunes a small set of parameters to adapt large models efficiently."}
+{"instruction": "Turn bullets into a short paragraph.", "input": "• LoRA injects low‑rank adapters\n• Works with QLoRA\n• Reduces VRAM", "output": "LoRA adds low‑rank adapters that can be trained efficiently, and in QLoRA these adapters work with a quantized base model to reduce VRAM usage."}
+{"instruction": "Answer briefly: What is SimPO?", "input": "", "output": "SimPO is a reference‑free preference objective that encourages the model to assign higher probability to preferred responses."}
+{"instruction": "Rewrite to be more professional.", "input": "The graphs look kinda messy and confusing.", "output": "The visualizations appear cluttered and could be improved for clarity."}
+{"instruction": "Explain simply: What is ROUGE‑L?", "input": "", "output": "ROUGE‑L measures the longest common subsequence overlap between reference and generated text."}

@@ -1,0 +1,2 @@
+{"instruction": "Give a concise definition of ORPO.", "input": "", "output": "ORPO is a reference‑free preference objective that aligns a model by maximizing odds ratios of chosen over rejected responses during SFT."}
+{"instruction": "Rewrite politely.", "input": "Send me the file now.", "output": "Could you please share the file when you have a moment?"}

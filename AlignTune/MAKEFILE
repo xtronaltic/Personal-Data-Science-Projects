@@ -1,0 +1,12 @@
+.PHONY: sft dpo simpo orpo eval judge safety serve demo lint test
+sft: ; python scripts/train_sft.py --config configs/base.yaml
+dpo: ; python scripts/train_dpo.py --config configs/base.yaml --sft_ckpt outputs/sft/TinyLlama-lora
+simpo: ; python scripts/train_simpo.py --config configs/base.yaml --sft_ckpt outputs/sft/TinyLlama-lora
+orpo: ; python scripts/train_orpo.py --config configs/base.yaml --sft_ckpt outputs/sft/TinyLlama-lora
+eval: ; python scripts/eval.py --config configs/base.yaml --ckpt outputs/dpo/TinyLlama-lora-dpo
+judge: ; python eval/judge_winrate.py --config configs/base.yaml --ckpt_a outputs/dpo/TinyLlama-lora-dpo --ckpt_b outputs/sft/TinyLlama-lora
+safety: ; python eval/safety_check.py --config configs/base.yaml --ckpt outputs/dpo/TinyLlama-lora-dpo
+serve: ; uvicorn api.server:app --reload
+demo: ; python app/demo.py --ckpt outputs/dpo/TinyLlama-lora-dpo
+lint: ; flake8 scripts api app eval
+test: ; pytest -q

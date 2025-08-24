@@ -1,0 +1,3 @@
+{"prompt": "Define PEFT in one line.", "chosen": "PEFT adapts large models by training a small number of additional parameters.", "rejected": "PEFT is an evaluation metric for readability."}
+{"prompt": "Rewrite to be concise: 'The results we obtained were extremely surprising to us.'", "chosen": "The results were very surprising.", "rejected": "We were like totally shocked, seriously."}
+{"prompt": "Explain LoRA briefly.", "chosen": "LoRA adds trainable low‑rank adapters to attention/MLP so few parameters are updated.", "rejected": "LoRA is a tokenizer that splits words differently."}

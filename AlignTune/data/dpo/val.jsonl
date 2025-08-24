@@ -1,0 +1,1 @@
+{"prompt": "What is DPO in model alignment?", "chosen": "DPO trains a model to prefer chosen answers over rejected ones using a preference objective.", "rejected": "DPO is a kind of decoder layer that changes depth."}
