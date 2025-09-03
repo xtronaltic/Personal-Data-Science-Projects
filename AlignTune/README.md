@@ -1,55 +1,81 @@
-# AlignTune: Modern LLM Fine‑Tuning & Preference Optimization (SFT → DPO/SimPO/ORPO)
+# AlignTune: Modern LLM Fine‑Tuning & Preference Optimization
 
-A **recruiter-ready**, 2025‑style project that demonstrates **parameter‑efficient fine‑tuning** and **preference alignment** with multiple objectives:
+## Overview:
 
-- **SFT (LoRA/QLoRA)** using `transformers` + `peft` (+ optional **Unsloth** acceleration).
-- **Preference tuning:** **DPO**, **SimPO**, and **ORPO** (choose via config; auto‑fallbacks if classes not available).
-- **Evaluation:**
-  - Task metrics (Exact‑Match, ROUGE‑L).
-  - **Judge‑based win rate** (MT‑Bench/AlpacaEval style) using a local “judge” model (or wire your own API).
-  - **Safety checks** (toy refusal/harm heuristics) + hooks for HarmBench/JailbreakBench.
-- **Serving:** FastAPI server (default) + optional **vLLM** server for throughput.
-- **DX:** Config‑first design, CI tests, Model Card, Dockerfile, Gradio demo.
+* Production‑style project showing how to train, align, and evaluate chat LLMs efficiently. Quantify gains from inserting SimPO before DPO polish and validate via automated ablation + human-style judge comparisons and safety probes. 
 
-> Ships with tiny synthetic data so it runs anywhere. Swap in your domain data for meaningful results.
+## Baseline flows:
 
-## Quickstart (CPU works; GPU recommended)
+* With SimPO: SFT → SimPO (beta=2.0) → mine hard pairs → short DPO polish (beta=0.1)
+* Without SimPO: SFT → short DPO (beta=0.1)
+* ORPO
+   * Supported: Yes — scripts/train_pref.py implements --algo orpo and Makefile has orpo target..
+   * Not in default E2E flows, balanced and nosimpo don’t include ORPO by default. I can add it to ablations if a 3‑way comparison is needed.
 
-```bash
-python -m venv .venv && source .venv/bin/activate
-pip install -U pip && pip install -r requirements.txt
+## End‑to‑End engineering:
 
-# If you have NO NVIDIA GPU: open configs/base.yaml and set:
-#   lora.qlora: false
-#   lora.load_in_4bit: false
+* Fully automated E2E flow: data build → SFT → preference tuning (SimPO/DPO/ORPO) → evaluation → bundle.
+* Fast & full suite tests (CI‑style, CPU‑friendly, switch models between Llama-3.1-8B-Instruct and TinyLlama-1.1B-Chat-v1.0)
+* Repro knobs: Makefile targets, seeded prompt sampling, env toggles for memory.
+* Interactive demo & serving: lightweight Gradio chat demo (`app/demo.py`) with leak-free prompt/templates and minimal post-processing for safe previews; production FastAPI server (`api/server.py`) for programmatic serving.
 
-# 1) SFT (LoRA/QLoRA)
-python scripts/train_sft.py --config configs/base.yaml
+## Data Engineering:
 
-# 2) Preference tuning (choose one; DPO is default)
-python scripts/train_dpo.py   --config configs/base.yaml --sft_ckpt outputs/sft/TinyLlama-lora
-python scripts/train_simpo.py --config configs/base.yaml --sft_ckpt outputs/sft/TinyLlama-lora   # if SimPOTrainer available
-python scripts/train_orpo.py  --config configs/base.yaml --sft_ckpt outputs/sft/TinyLlama-lora   # if ORPOTrainer available
+* Streaming ingestion: Hugging Face datasets processed in a memory‑safe way.
+* Sensible defaults: Balanced preset capped ~34k SFT; DPO ~30k.
+* Quality filters: Simple toxicity skim + banned template stems; near‑dup removal via Jaccard.
+* Preset caps: Fast/balanced/thorough sizes; per‑source caps; progress logs; bounded scans for predictability.
+* Data formats:
+   * SFT (data/sft/*.jsonl): { "instruction", "input", "output" }
+   * DPO/SimPO/ORPO (data/dpo/*.jsonl): { "prompt", "chosen", "rejected" }
+* Deterministic RNG seed (42) used across data sampling and judge prompt selection
+* Repro knobs: Env overrides for caps and windows; clear DATA_CARD.md.
 
-# 3) Evaluate
-python scripts/eval.py --config configs/base.yaml --ckpt outputs/dpo/TinyLlama-lora-dpo
-python eval/judge_winrate.py --config configs/base.yaml --ckpt_a outputs/dpo/TinyLlama-lora-dpo --ckpt_b outputs/sft/TinyLlama-lora
-python eval/safety_check.py  --config configs/base.yaml --ckpt outputs/dpo/TinyLlama-lora-dpo
+## Training Stack:
 
-# 4) Serve + demo
-uvicorn api.server:app --reload
-python app/demo.py --ckpt outputs/dpo/TinyLlama-lora-dpo
+* transformers: Base model and tokenization layer
+   * Backbone: Llama/TinyLlama with SDPA attention backend
+   * Left-padded decoder optimization in eval
+   * FastAPI integration for serving
+   * TF32 matrix multiply acceleration with minimal precision trade-off
 
-# (Optional) vLLM server (needs vllm installed)
-python api/server_vllm.py --ckpt outputs/dpo/TinyLlama-lora-dpo --base TinyLlama/TinyLlama-1.1B-Chat-v1.0
-```
+* peft: Parameter-efficient adaptation layer (LoRA)
+   * LoRA adapters (r=8/16, alpha=32)
+   * Target: q/k/v/o + gate/up/down projections
+   * Efficient parameter fine-tuning (~0.1% trainable params)
 
-## Switch models
-- Default: `TinyLlama/TinyLlama-1.1B-Chat-v1.0` (small; no license gate).
-- Larger: `meta-llama/Llama-3.1-8B-Instruct` (accept HF license). Update `configs/base.yaml:model_name`.
+* bitsandbytes: Quantization and optimization layer
+   * QLoRA: 4-bit quantized base model
+   * 8-bit optimizer (ALIGNTUNE_OPTIM_8BIT=1)
+   * NF4/GPTQ compatibility for inference
 
-## Data formats
-- **SFT** (`data/sft/*.jsonl`): `{ "instruction", "input", "output" }`
-- **DPO/SimPO/ORPO** (`data/dpo/*.jsonl`): `{ "prompt", "chosen", "rejected" }`
+* trl: Preference learning algorithms layer
+   * DPO with β=0.1 for conservative updates
+   * SimPO (β=2.0) via CPOTrainer fallback
+   * ORPO with version-aware dispatch
+   * Unified preference trainer interface
 
-See `data/DATA_CARD.md` for details.
+* unsloth:
+   * Flash attention optimizations
+   * Length-aware sequence batching
+   * Preset-driven memory configs:
+   * fast: 1536, balanced: 2048, thorough: 3072
+
+* Key Optimizations:
+   * VRAM: 4-bit model + 8-bit Adam + grad checkpointing
+   * Training: Autosave + emergency snapshots + CLI overrides + ETA logging
+   * Inference: Left-padding + SDPA backend + batched eval
+   * Efficiency: 4‑bit base loading, length grouping, and near‑dup windows tuned per preset; fail‑soft behavior skips problematic sources, logs progress, and stops on caps reliably, preset-driven pref_max_seq_len and pref_max_prompt_len to control memory and prompt context per run, DPO advanced flags support precompute_ref_log_probs and reference_free modes (configurable per-preset) to trade compute vs determinism.
+
+## Evaluation & Reporting
+
+* Automated ablations for EM/ROUGE-L, judge flow now uses a seeded 1000-sample prompt file; judge runs support symmetric scoring and case export for qualitative review, and safety probes baked in.
+* Two eval modes:Full (34k) and Credible (Balanced‑400 + Long‑100) for representative reporting.
+* Results rollup: scripts.make_results creates a scannable reports/RESULTS.md.
+* Portfolio ZIP: scripts.portfolio_export bundles configs, reports, and data samples for easy sharing.
+
+## Developer Experience
+
+* Config‑first: configs/base.yaml presets control sequence length, steps, LoRA, and preference settings.
+* Make targets: Clean verbs for common tasks.
+* Tests: Config smoke + inference test

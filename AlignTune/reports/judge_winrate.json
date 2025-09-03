@@ -1,0 +1,15 @@
+{
+  "model_a": "Llama-3.1-8B-Instruct-lora",
+  "model_b": "Llama-3.1-8B-Instruct-lora-dpo",
+  "n": 1000,
+  "wins_a": 700,
+  "wins_b": 742,
+  "ties": 303,
+  "win_rate_a": 0.4854368932038835,
+  "ci_low": 0.4596404901791352,
+  "ci_high": 0.5112332962286318,
+  "judge": "meta-llama/Llama-3.2-1B-Instruct",
+  "temp": 0.0,
+  "prompts_source": "eval/prompts/prompts_1000.txt",
+  "symmetric": true
+}

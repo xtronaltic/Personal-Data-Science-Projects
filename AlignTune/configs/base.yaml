@@ -1,83 +1,105 @@
-seed: 42
-
-model_name: "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
+model_name: meta-llama/Llama-3.1-8B-Instruct
 tokenizer_name: null
+output_dir: outputs
+system_prompt: You are a helpful, concise assistant.
 
-output_dir: "outputs"
-project: "aligntune"
+seed: 42
+tf32: true
+overwrite_output_dir: true
 
-# Acceleration
+preset: balanced
+
 unsloth:
-  enable: true         # If true and unsloth is installed, use it for faster LoRA
-  max_seq_len: 4096
+  enable: true
+  max_seq_len:
+    fast: 1536
+    balanced: 2048
+    thorough: 3072
 
-# LoRA / QLoRA
 lora:
-  r: 16
-  alpha: 32
-  dropout: 0.05
-  target_modules: ["q_proj","k_proj","v_proj","o_proj","gate_proj","up_proj","down_proj"]
   qlora: true
   load_in_4bit: true
+  r:
+    fast: 8
+    balanced: 8
+    thorough: 16
+  alpha: 32
+  dropout: 0.0
+  target_modules: ["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj"]
 
-# SFT
 sft:
-  train_file: "data/sft/train.jsonl"
-  val_file: "data/sft/val.jsonl"
-  max_steps: 300
+  train_file: data/pack/sft.jsonl
+  val_file: data/pack/sft.jsonl
   per_device_train_batch_size: 4
   per_device_eval_batch_size: 4
   gradient_accumulation_steps: 4
+  max_seq_len:
+    fast: 1536
+    balanced: 2048
+    thorough: 3072
   lr: 2e-4
   warmup_ratio: 0.03
-  max_seq_len: 1024
-  eval_steps: 100
-  save_steps: 100
   logging_steps: 10
+  eval_steps: 200
+  save_steps: 200
+  save_total_limit: 2
+  max_steps:
+    fast: 400
+    balanced: 800
+    thorough: 1500
+  lr_scheduler_type: cosine
 
-# Preference tuning (shared loader for DPO/SimPO/ORPO)
-pref:
-  train_file: "data/dpo/train.jsonl"
-  val_file: "data/dpo/val.jsonl"
+pref_max_seq_len:
+  fast: 1024
+  balanced: 1152
+  thorough: 1536
+
+pref_max_prompt_len:
+  fast: 512
+  balanced: 576
+  thorough: 768
 
 dpo:
+  train_file: data/pack/dpo.jsonl
+  per_device_train_batch_size: 1
+  gradient_accumulation_steps: 18
+  lr: 5e-6
+  logging_steps: 10
+  save_steps: 400
+  save_total_limit: 2
   beta: 0.1
-  max_steps: 300
-  per_device_train_batch_size: 2
-  per_device_eval_batch_size: 2
-  gradient_accumulation_steps: 8
-  lr: 1e-5
-  eval_steps: 100
-  save_steps: 100
-  logging_steps: 10
+  # SimPO via CPOTrainer
+  # beta: 2.0
+  simpo_gamma: 0.5
+  max_steps:
+    fast: 300
+    balanced: 600
+    thorough: 1000
+  precompute_ref_log_probs:
+    fast: false
+    balanced: true
+    thorough: true
+  reference_free:
+    fast: true
+    balanced: false
+    thorough: false
+  group_by_length: true
 
-simpo:
-  gamma: 0.1            # typical scale; adjust as needed
-  max_steps: 300
-  per_device_train_batch_size: 2
-  per_device_eval_batch_size: 2
-  gradient_accumulation_steps: 8
-  lr: 1e-5
-  eval_steps: 100
-  save_steps: 100
-  logging_steps: 10
+demo:
+  port: 7860
+  blocklist:
+    - "ignore previous"
+    - "jailbreak"
+    - "do anything now"
+    - "bypass safety"
+    - "how to make a bomb"
+    - "make explosives"
 
-orpo:
-  lambda: 0.5
-  max_steps: 300
-  per_device_train_batch_size: 2
-  per_device_eval_batch_size: 2
-  gradient_accumulation_steps: 8
-  lr: 1e-5
-  eval_steps: 100
-  save_steps: 100
-  logging_steps: 10
+api:
+  host: 127.0.0.1
+  port: 8000
 
 generation:
   max_new_tokens: 256
   temperature: 0.7
   top_p: 0.9
-
-judge_eval:
-  judge_model_name: "TinyLlama/TinyLlama-1.1B-Chat-v1.0"   # swap to a stronger local judge if available
-  prompts_file: "eval/prompts/pairwise_eval.jsonl"

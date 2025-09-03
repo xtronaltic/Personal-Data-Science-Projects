@@ -1,0 +1,25 @@
+{
+  "runs": [
+    {
+      "label": "SFT (long)",
+      "n": 100,
+      "exact_match": 0.0,
+      "rougeL": 0.2244283325973199,
+      "toxic_flags": 5
+    },
+    {
+      "label": "SimPO (long)",
+      "n": 100,
+      "exact_match": 0.0,
+      "rougeL": 0.22695878546137377,
+      "toxic_flags": 6
+    },
+    {
+      "label": "DPO (long)",
+      "n": 100,
+      "exact_match": 0.0,
+      "rougeL": 0.23373053679405956,
+      "toxic_flags": 5
+    }
+  ]
+}
