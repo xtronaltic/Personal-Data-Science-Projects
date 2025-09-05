@@ -1,18 +1,15 @@
 # AlignTune: Modern LLM Fine‑Tuning & Preference Optimization
 
-[![MIT License][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
-
 <br />
 <p align="center">
-  <a href="github.com/xtronaltic/UCLA-Projects/blob/main/AlignTune/README.md">
+  <a href="github.com/xtronaltic/UCLA-Projects/blob/main/README.md">
     <img src="Archive/Resources/AlignTune Demo 1.png" width="1920" height="1080">
   </a>
 </p>
 
 <br />
 <p align="center">
-  <a href="github.com/xtronaltic/UCLA-Projects/blob/main/AlignTune/README.md">
+  <a href="github.com/xtronaltic/UCLA-Projects/blob/main/README.md">
     <img src="Archive/Resources/AlignTune Demo 2.png" width="1920" height="1080">
   </a>
 </p>
