@@ -2,7 +2,7 @@
 
 <br />
 <p align="center">
-    <img src="./Archive/Resources/AlignTune Demo 1.png" width="1920" height="1080">
+    <img src="./Archive/Resources/AlignTune_Demo_1.png" width="1920" height="1080">
 </p>
 
 <br />
