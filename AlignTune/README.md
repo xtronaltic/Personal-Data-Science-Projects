@@ -2,7 +2,7 @@
 
 <br />
 <p align="center">
-    <img src="./Archive/Resources/AlignTune_Demo_1.png" width="1920" height="1080">
+    <img src="https://github.com/xtronaltic/Personal-Data-Science-Projects/blob/4df37d95e4d497d95f0f2bec44988af32afdc4b7/Archive/Resources/AlignTune%20Demo%201.png" width="1920" height="1080">
 </p>
 
 <br />
