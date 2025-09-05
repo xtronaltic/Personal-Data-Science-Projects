@@ -1,4 +1,4 @@
-# AlignTune: Modern LLM Fine‑Tuning & Preference Optimization
+# AlignTune - Config-Driven SimPO → DPO LLM Alignment + RAG
 
 <br />
 <p align="center">
