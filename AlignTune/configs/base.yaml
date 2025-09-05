@@ -69,7 +69,7 @@ dpo:
   save_total_limit: 2
   beta: 0.1
   # SimPO via CPOTrainer
-  # beta: 2.0 or 2.5
+  # beta: 2.0 to 2.5
   simpo_gamma: 0.5
   max_steps:
     fast: 300
