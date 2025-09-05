@@ -7,9 +7,7 @@
 
 <br />
 <p align="center">
-  <a href="github.com/xtronaltic/UCLA-Projects/blob/main/README.md">
-    <img src="Archive/Resources/AlignTune Demo 2.png" width="1920" height="1080">
-  </a>
+    <img src="https://github.com/xtronaltic/Personal-Data-Science-Projects/blob/25a33be0322f87023d239f7a93610c967d6d39b1/Archive/Resources/AlignTune%20Demo%202.png" width="1920" height="1080">
 </p>
 
 ## Overview:
