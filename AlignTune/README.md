@@ -1,5 +1,19 @@
 # AlignTune: Modern LLM Fine‑Tuning & Preference Optimization
 
+<br />
+<p align="center">
+  <a href="github.com/xtronaltic/Personal-Data-Science-Projects/blob/main/AlignTune/README.md">
+    <img src="Archive/Resources/AlignTune Demo 1.png" width="1920" height="1080">
+  </a>
+</p>
+
+<br />
+<p align="center">
+  <a href="github.com/xtronaltic/Personal-Data-Science-Projects/blob/main/AlignTune/README.md">
+    <img src="Archive/Resources/AlignTune Demo 2.png" width="1920" height="1080">
+  </a>
+</p>
+
 ## Overview:
 
 * Production‑style project showing how to train, align, and evaluate chat LLMs efficiently. Quantify gains from inserting SimPO before DPO polish and validate via automated ablation + human-style judge comparisons and safety probes. 
