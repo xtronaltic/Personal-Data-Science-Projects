@@ -10,7 +10,7 @@
 
 ## Projects
 
-* [AlignTune — SimPO-primed DPO (QLoRA-8B); seeded ablations; symmetric judge win-rate; safety probes; FastAPI/Gradio; FAISS-RAG](./AlignTune)
+* [AlignTune — Efficient LLM Alignment: SimPO-primed DPO (QLoRA-8B); seeded ablations; symmetric judge win-rate; safety probes; FastAPI/Gradio; FAISS-RAG](./AlignTune)
   - Engineered SFT → SimPO → hard-pair mining → short DPO polish pipeline; +9–11% ROUGE-L on long-context, parity on balanced eval, ~53.5% DPO judge win rate (from 48.5%) and safety probe 25% → 0% attack success.
   - QLoRA 4-bit + LoRA (r=8/16, α=32), 8-bit optimizer, grad checkpointing, SDPA, length-grouped left-padded batches, deterministic seeds, and autosnapshots—stable training on a single 16 GB GPU without OOM.
   - Deterministic data packs, streaming ingestion, near-dup removal, toxicity skim, per-source caps, record-level provenance; length-bucketed ROUGE-L, LLM-judge win-rate (greedy, symmetric), toxicity/1k tokens auto-rolled into RESULTS.md; FastAPI inference server + Gradio demo with versioned LoRA adapters/tokenizer snapshots for drop-in deployment.
