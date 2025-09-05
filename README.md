@@ -10,6 +10,11 @@
   </a>
 </p>
 
+<br />
+<p align="center">
+    <img src="Archive/Resources/NLP.jpeg" width="1920" height="1080">
+</p>
+
 ## Projects
 
 * AlignTune - Config-Driven SimPO→DPO LLM Alignment + RAG
