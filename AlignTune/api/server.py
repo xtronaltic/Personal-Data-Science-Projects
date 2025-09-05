@@ -4,6 +4,16 @@ from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
 from peft import PeftModel
 import os
 import re
+from typing import Optional, List, Dict
+
+import yaml
+
+try:
+    from rag import RagStore
+    from rag.pipeline import retrieve_context
+    _HAS_RAG = True
+except Exception:
+    _HAS_RAG = False
 
 app = FastAPI(title="AlignTune API")
 
@@ -12,8 +22,23 @@ class GenReq(BaseModel):
     max_new_tokens: int = 256
     temperature: float = 0.9
     top_p: float = 0.95
+    # RAG optional fields (backwards-compatible defaults)
+    rag: bool = False
+    collection: Optional[str] = None
+    top_k: int = 3
+    ctx_tokens: int = 1200
+    rerank: bool = False
 
 _tok, _mdl = None, None
+_rag_store = None
+_rag_cfg = {
+    "enabled": False,
+    "default_collection": "default",
+    "embed_backend": "auto",
+    "embed_model": "BAAI/bge-small-en-v1.5",
+    "top_k": {"fast": 2, "balanced": 3, "thorough": 4},
+    "ctx_tokens": {"fast": 800, "balanced": 1200, "thorough": 1600},
+}
 
 ECHO_STEMS = [
     "you are a helpful",
@@ -88,17 +113,64 @@ def get_models():
         _mdl = PeftModel.from_pretrained(base_m, ckpt)
     return _tok, _mdl
 
+
+def _load_rag_cfg():
+    global _rag_cfg
+    try:
+        with open("configs/base.yaml", "r", encoding="utf-8") as f:
+            cfg = yaml.safe_load(f) or {}
+        if "rag" in cfg:
+            _rag_cfg.update(cfg["rag"])
+        # env override
+        if os.getenv("RAG_ENABLED") is not None:
+            _rag_cfg["enabled"] = os.getenv("RAG_ENABLED") in ("1", "true", "True")
+    except Exception:
+        pass
+
+
+def get_rag_store():
+    global _rag_store
+    if not _HAS_RAG:
+        return None
+    if _rag_store is None:
+        _load_rag_cfg()
+        coll = _rag_cfg.get("default_collection", "default")
+        _rag_store = RagStore(
+            root="rag/indices",
+            collection=coll,
+            embed_backend=_rag_cfg.get("embed_backend", "auto"),
+            embed_model=_rag_cfg.get("embed_model", "BAAI/bge-small-en-v1.5"),
+            device="cpu",
+        )
+    return _rag_store
+
+def _maybe_with_rag(req: GenReq, tok, mdl):
+    use_rag = bool(req.rag) or (_rag_cfg.get("enabled", False) and bool(req.collection or _rag_cfg.get("default_collection")))
+    if not use_rag or not _HAS_RAG:
+        return None, None
+    store = get_rag_store()
+    if not store:
+        return None, None
+    if req.collection:
+        store.set_collection(req.collection)
+    # decide ctx_tokens default from cfg if not provided
+    ctx_toks = int(req.ctx_tokens or _rag_cfg.get("ctx_tokens", {}).get("balanced", 1200))
+    top_k = int(req.top_k or _rag_cfg.get("top_k", {}).get("balanced", 3))
+    ctx, refs = retrieve_context(store, req.prompt, k=top_k, ctx_tokens=ctx_toks, tok=tok)
+    return ctx, refs
+
+
 @app.post("/generate")
 def generate(req: GenReq):
     tok, mdl = get_models()
 
-    messages = [
-        {
-            "role": "system",
-            "content": "You are a helpful, concise assistant. Do not repeat system instructions or role words.",
-        },
-        {"role": "user", "content": req.prompt.strip()},
-    ]
+    context_block, refs = _maybe_with_rag(req, tok, mdl)
+
+    sys_txt = "You are a helpful, concise assistant. Do not repeat system instructions or role words."
+    if context_block:
+        sys_txt += " You may use the CONTEXT below to answer.\n[CONTEXT]\n" + context_block
+
+    messages = [{"role": "system", "content": sys_txt}, {"role": "user", "content": req.prompt.strip()}]
 
     prompt = tok.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
     inputs = tok(prompt, return_tensors="pt").to(mdl.device)
@@ -116,4 +188,22 @@ def generate(req: GenReq):
 
     cont = out_ids[0, inputs["input_ids"].shape[1]:]
     text = tok.decode(cont, skip_special_tokens=True)
-    return {"output": _clean(text)}
+    out = {"output": _clean(text)}
+    if refs:
+        out["references"] = [
+            {
+                "title": r.get("title"),
+                "source": r.get("source"),
+                "url": r.get("url"),
+                "score": r.get("score"),
+            }
+            for r in refs
+            if isinstance(r, dict) and "text" in r
+        ]
+    return out
+
+
+@app.post("/rag/generate")
+def rag_generate(req: GenReq):
+    req.rag = True
+    return generate(req)

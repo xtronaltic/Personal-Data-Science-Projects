@@ -69,7 +69,7 @@ dpo:
   save_total_limit: 2
   beta: 0.1
   # SimPO via CPOTrainer
-  # beta: 2.0
+  # beta: 2.0 or 2.5
   simpo_gamma: 0.5
   max_steps:
     fast: 300
@@ -103,3 +103,27 @@ generation:
   max_new_tokens: 256
   temperature: 0.7
   top_p: 0.9
+
+rag:
+  enabled: false
+  default_collection: default
+  embed_backend: auto 
+  embed_model: BAAI/bge-small-en-v1.5
+  rerank: false
+  reranker_model: BAAI/bge-reranker-base
+  top_k:
+    fast: 2
+    balanced: 3
+    thorough: 4
+  ctx_tokens:
+    fast: 800
+    balanced: 1200
+    thorough: 1600
+  chunk_tokens:
+    fast: 256
+    balanced: 300
+    thorough: 350
+  overlap_tokens:
+    fast: 32
+    balanced: 40
+    thorough: 48

@@ -1,0 +1,7 @@
+{
+  "index_type": "faiss",
+  "dim": 384,
+  "size": 7,
+  "backend": "auto",
+  "embed_model": "BAAI/bge-small-en-v1.5"
+}

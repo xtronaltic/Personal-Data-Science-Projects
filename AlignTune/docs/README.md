@@ -6,8 +6,7 @@
 
 ## Baseline flows:
 
-* With SimPO: SFT → SimPO → mine hard pairs → short DPO polish
-* Without SimPO: SFT → DPO
+* SFT → SimPO → mine hard pairs → short DPO polish
 * ORPO
    * Supported: Yes — scripts/train_pref.py implements --algo orpo and Makefile has orpo target..
    * Not in default E2E flows, balanced and nosimpo don’t include ORPO by default. I can add it to ablations if a 3‑way comparison is needed.

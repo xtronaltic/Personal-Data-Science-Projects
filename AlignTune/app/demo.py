@@ -22,6 +22,13 @@ except Exception:
 
 from peft import PeftModel
 
+try:
+    from rag import RagStore
+    from rag.pipeline import retrieve_context
+    _HAS_RAG = True
+except Exception:
+    _HAS_RAG = False
+
 SYSTEM_PROMPT = (
     "You are a helpful, concise assistant. "
     "Do not repeat system instructions or role words. "
@@ -152,9 +159,9 @@ def _safe_generate(model, **kwargs):
         return model.generate(**kwargs)
 
 
-def build_chat_prompt(tok, user_text: str) -> str:
+def build_chat_prompt(tok, user_text: str, context_block: str | None = None) -> str:
     msgs = [
-        {"role": "system", "content": SYSTEM_PROMPT},
+        {"role": "system", "content": SYSTEM_PROMPT + (f" You may use the CONTEXT below to answer.\n[CONTEXT]\n{context_block}" if context_block else "")},
         {"role": "user", "content": user_text.strip()},
     ]
     return tok.apply_chat_template(msgs, tokenize=False, add_generation_prompt=True)
@@ -237,10 +244,10 @@ def finish_the_thought(model, tok, prompt, text, extra_tokens=96, temp=0.9, top_
     return strip_instruction_echo((text + " " + more).strip())
 
 
-def generate_best(model, tok, user_text):
+def generate_best(model, tok, user_text, context_block: str | None = None):
     intent = detect_intent(user_text)
     min_new, max_new, temp, top_p, rep_pen, no_repeat, best_of, max_attempts = params_for_intent(intent)
-    prompt = build_chat_prompt(tok, user_text)
+    prompt = build_chat_prompt(tok, user_text, context_block=context_block)
     cands = []
     attempts = 0
     while len(cands) < best_of and attempts < max_attempts:
@@ -271,29 +278,57 @@ def main():
 
     model, tok = load_model_and_tok(args.ckpt, args.base)
 
+    store = None
+    collections = []
+    if _HAS_RAG:
+        try:
+            store = RagStore()
+            collections = store.available_collections()
+        except Exception:
+            store = None
+            collections = []
+
     with gr.Blocks() as demo:
         gr.Markdown("# AlignTune — Tianpeng Gai (Leo)")
-        chat = gr.Chatbot(type="messages", height=500)
+        chat = gr.Chatbot(type="messages", height=700)
         with gr.Row():
-            msg = gr.Textbox(placeholder="Ask anything… e.g., tell me a joke", scale=8)
+            msg = gr.Textbox(label="How can AlignTune help?", placeholder="Ask anything…", scale=8)
             send = gr.Button("Send", variant="primary", scale=1)
+        with gr.Row():
+            use_rag = gr.Checkbox(label="Use RAG", value=False, interactive=bool(_HAS_RAG))
+            coll = gr.Dropdown(choices=collections or ["default"], value=(collections[0] if collections else "default"), label="Collection", interactive=bool(collections))
 
-        def on_send(user_msg, messages):
+        def on_send(user_msg, messages, use_rag_val, collection_val):
             messages = messages or []
             text = (user_msg or "").strip()
             if not text:
-                return messages, ""
+                return messages, "", use_rag_val, collection_val
             messages.append({"role": "user", "content": text})
             blocked = screen_for_obvious_unsafe(text)
             if blocked:
                 messages.append({"role": "assistant", "content": blocked})
-                return messages, ""
-            ans = generate_best(model, tok, text)
-            messages.append({"role": "assistant", "content": ans})
-            return messages, ""
+                return messages, "", use_rag_val, collection_val
 
-        send.click(on_send, inputs=[msg, chat], outputs=[chat, msg])
-        msg.submit(on_send, inputs=[msg, chat], outputs=[chat, msg])
+            context_block = None
+            refs = None
+            if use_rag_val and store is not None:
+                try:
+                    if collection_val:
+                        store.set_collection(collection_val)
+                    context_block, refs = retrieve_context(store, text, k=3, ctx_tokens=1200, tok=tok)
+                except Exception:
+                    context_block, refs = None, None
+
+            ans = generate_best(model, tok, text, context_block=context_block)
+            if refs and isinstance(refs, list):
+                refs_show = [f"- {r.get('title') or r.get('source')} (score={r.get('score'):.3f})" for r in refs if isinstance(r, dict) and 'text' in r]
+                if refs_show:
+                    ans = ans + "\n\nReferences:\n" + "\n".join(refs_show)
+            messages.append({"role": "assistant", "content": ans})
+            return messages, "", use_rag_val, collection_val
+
+        send.click(on_send, inputs=[msg, chat, use_rag, coll], outputs=[chat, msg, use_rag, coll])
+        msg.submit(on_send, inputs=[msg, chat, use_rag, coll], outputs=[chat, msg, use_rag, coll])
 
     demo.launch(server_name="127.0.0.1", server_port=args.port)
 
