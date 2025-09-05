@@ -10,16 +10,6 @@
   </a>
 </p>
 
-<details open="open">
-  <summary>Contents</summary>
-  <ol>
-    <li>
-      <a href="#Projects">Projects</a>
-    </li>
-    <li><a href="#license">License</a></li>
-  </ol>
-</details>
-
 ## Projects
 
 * UCLA Machine Learning Classification Project (Python)
