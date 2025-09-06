@@ -67,7 +67,7 @@ class HFEmbedder(BaseEmbedder):
             enc = self.tok(chunk, padding=True, truncation=True, return_tensors="pt").to(self.mdl.device)
             with self.torch.inference_mode():
                 out = self.mdl(**enc)
-                pooled = self._mean_pool(out.last_hidden_state, enc["attention_mask"])  # (B, D)
+                pooled = self._mean_pool(out.last_hidden_state, enc["attention_mask"]) 
                 if normalize:
                     pooled = self.torch.nn.functional.normalize(pooled, p=2, dim=1)
             embs.append(pooled.detach().cpu().numpy().astype(np.float32))

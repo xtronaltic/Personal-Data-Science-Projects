@@ -45,14 +45,12 @@ SIMPLE_BLOCKLIST = [
     "credit card numbers",
 ]
 
-
 def screen_for_obvious_unsafe(text: str) -> str | None:
     low = (text or "").lower()
     for k in SIMPLE_BLOCKLIST:
         if k in low:
             return "Sorry — I can’t help with that."
     return None
-
 
 ECHO_STEMS = [
     "you are a helpful",
@@ -81,7 +79,6 @@ BANNED_LINE_RE = re.compile(
     r"\[/?(system|instruction|response|input|replacement)\])[:.\s]*$"
 )
 
-
 def strip_instruction_echo(s: str) -> str:
     for p in TAG_PATTERNS:
         s = re.sub(p, "", s, flags=re.IGNORECASE)
@@ -99,13 +96,11 @@ def strip_instruction_echo(s: str) -> str:
     s = re.sub(r"\n{3,}", "\n\n", s)
     return s.strip()
 
-
 def looks_incomplete(t: str) -> bool:
     t = t.strip()
     if not t:
         return True
     return (len(t.split()) < 6) or (t[-1:] not in ".!?”") or t.endswith((":", ";", ","))
-
 
 def detect_intent(user_text: str):
     p = user_text.lower()
@@ -121,7 +116,6 @@ def detect_intent(user_text: str):
         return "rewrite"
     return "qa"
 
-
 def params_for_intent(kind: str):
     profiles = {
         "joke_short": (24, 96, 0.95, 0.95, 1.02, 0, 4, 6),
@@ -132,7 +126,6 @@ def params_for_intent(kind: str):
         "qa": (16, 160, 0.80, 0.95, 1.03, 0, 3, 5),
     }
     return profiles.get(kind, profiles["qa"])
-
 
 def load_model_and_tok(ckpt: str, base: str):
     tok = AutoTokenizer.from_pretrained(base, use_fast=True)
@@ -149,7 +142,6 @@ def load_model_and_tok(ckpt: str, base: str):
     model = PeftModel.from_pretrained(base_m, ckpt)
     return model, tok
 
-
 def _safe_generate(model, **kwargs):
     try:
         return model.generate(**kwargs)
@@ -158,14 +150,12 @@ def _safe_generate(model, **kwargs):
         kwargs.pop("no_repeat_ngram_size", None)
         return model.generate(**kwargs)
 
-
 def build_chat_prompt(tok, user_text: str, context_block: str | None = None) -> str:
     msgs = [
         {"role": "system", "content": SYSTEM_PROMPT + (f" You may use the CONTEXT below to answer.\n[CONTEXT]\n{context_block}" if context_block else "")},
         {"role": "user", "content": user_text.strip()},
     ]
     return tok.apply_chat_template(msgs, tokenize=False, add_generation_prompt=True)
-
 
 def eos_ids(tok):
     ids = [tok.eos_token_id]
@@ -176,7 +166,6 @@ def eos_ids(tok):
     except Exception:
         pass
     return ids
-
 
 def sample_once(model, tok, prompt, min_new, max_new, temp, top_p, rep_pen, no_repeat):
     inputs = tok(prompt, return_tensors="pt").to(model.device)
@@ -197,7 +186,6 @@ def sample_once(model, tok, prompt, min_new, max_new, temp, top_p, rep_pen, no_r
     cont = gen_ids[0, inputs["input_ids"].shape[1]:]
     text = tok.decode(cont, skip_special_tokens=True)
     return strip_instruction_echo(text)
-
 
 def score_candidate(text: str, intent: str):
     if not text:
@@ -221,7 +209,6 @@ def score_candidate(text: str, intent: str):
         score -= 0.5
     return score
 
-
 def finish_the_thought(model, tok, prompt, text, extra_tokens=96, temp=0.9, top_p=0.95):
     if not looks_incomplete(text):
         return text
@@ -242,7 +229,6 @@ def finish_the_thought(model, tok, prompt, text, extra_tokens=96, temp=0.9, top_
     )
     more = tok.decode(gen_ids2[0, inputs["input_ids"].shape[1]:], skip_special_tokens=True)
     return strip_instruction_echo((text + " " + more).strip())
-
 
 def generate_best(model, tok, user_text, context_block: str | None = None):
     intent = detect_intent(user_text)
@@ -267,7 +253,6 @@ def generate_best(model, tok, user_text, context_block: str | None = None):
         model, tok, prompt, best, extra_tokens=max(64, max_new // 2), temp=temp, top_p=top_p
     )
     return best.strip()
-
 
 def main():
     ap = argparse.ArgumentParser()
@@ -331,7 +316,6 @@ def main():
         msg.submit(on_send, inputs=[msg, chat, use_rag, coll], outputs=[chat, msg, use_rag, coll])
 
     demo.launch(server_name="127.0.0.1", server_port=args.port)
-
 
 if __name__ == "__main__":
     main()

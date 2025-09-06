@@ -51,7 +51,7 @@ def main():
     lines.append("")
 
     if runs:
-        lines.append("## Ablation (Blanced‑Prompt Subset)")
+        lines.append("## Ablation (Balanced‑Prompt Subset)")
         lines.append("")
         lines.append("| Model | N | Exact Match | ROUGE-L | Toxic Flags |")
         lines.append("|---|---:|---:|---:|---:|")
@@ -60,14 +60,6 @@ def main():
                 f"| {r['label']} | {r.get('n', 0)} | {r.get('exact_match', 0):.3f} | "
                 f"{r.get('rougeL', 0):.3f} | {r.get('toxic_flags', 0)} |"
             )
-        lines.append("")
-        lines.append("Exact Match (ASCII bars):")
-        for r in runs:
-            lines.append(
-                f"- {r['label']}: {ascii_bar(r.get('exact_match', 0.0))} "
-                f"{r.get('exact_match', 0.0):.3f}"
-            )
-        lines.append("")
 
     if eval_single:
         lines.append("## Eval (detailed)")
@@ -93,14 +85,23 @@ def main():
         lines.append("## Judge Win-Rate")
         lines.append("")
         a, b = judge.get("model_a"), judge.get("model_b")
-        wr = judge.get("win_rate_a", 0.0)
-        ci_l, ci_h = judge.get("ci_low", 0.0), judge.get("ci_high", 0.0)
+        wr_a = judge.get("win_rate_a", 0.0)
+        ci_la, ci_ha = judge.get("ci_low_a", judge.get("ci_low", 0.0)), judge.get("ci_high_a", judge.get("ci_high", 0.0))
+        wr_b = judge.get("win_rate_b", 1.0 - wr_a)
+        ci_lb, ci_hb = judge.get("ci_low_b", 0.0), judge.get("ci_high_b", 0.0)
         ties = judge.get("ties", 0)
         N = judge.get("n", 0)
+        symmetric = bool(judge.get("symmetric", False))
         lines.append(
-            f"{a} vs {b}: {wr*100:.1f}% win for {a} (95% CI: {ci_l*100:.1f}–{ci_h*100:.1f}%), "
-            f"ties: {ties}/{N}."
+            f"{a} vs {b}: {wr_a*100:.1f}% win for {a} (95% CI: {ci_la*100:.1f}–{ci_ha*100:.1f}%)."
         )
+        lines.append(
+            f"{b} vs {a}: {wr_b*100:.1f}% win for {b} (95% CI: {ci_lb*100:.1f}–{ci_hb*100:.1f}%)."
+        )
+        if symmetric:
+            lines.append(f"Ties (pooled across both directions): {ties}/{2*N}.")
+        else:
+            lines.append(f"Ties: {ties}/{N}.")
 
     if safety:
         lines.append("")

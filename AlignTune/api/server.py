@@ -5,9 +5,7 @@ from peft import PeftModel
 import os
 import re
 from typing import Optional, List, Dict
-
 import yaml
-
 try:
     from rag import RagStore
     from rag.pipeline import retrieve_context
@@ -22,7 +20,6 @@ class GenReq(BaseModel):
     max_new_tokens: int = 256
     temperature: float = 0.9
     top_p: float = 0.95
-    # RAG optional fields (backwards-compatible defaults)
     rag: bool = False
     collection: Optional[str] = None
     top_k: int = 3
@@ -113,7 +110,6 @@ def get_models():
         _mdl = PeftModel.from_pretrained(base_m, ckpt)
     return _tok, _mdl
 
-
 def _load_rag_cfg():
     global _rag_cfg
     try:
@@ -121,12 +117,10 @@ def _load_rag_cfg():
             cfg = yaml.safe_load(f) or {}
         if "rag" in cfg:
             _rag_cfg.update(cfg["rag"])
-        # env override
         if os.getenv("RAG_ENABLED") is not None:
             _rag_cfg["enabled"] = os.getenv("RAG_ENABLED") in ("1", "true", "True")
     except Exception:
         pass
-
 
 def get_rag_store():
     global _rag_store
@@ -153,25 +147,19 @@ def _maybe_with_rag(req: GenReq, tok, mdl):
         return None, None
     if req.collection:
         store.set_collection(req.collection)
-    # decide ctx_tokens default from cfg if not provided
     ctx_toks = int(req.ctx_tokens or _rag_cfg.get("ctx_tokens", {}).get("balanced", 1200))
     top_k = int(req.top_k or _rag_cfg.get("top_k", {}).get("balanced", 3))
     ctx, refs = retrieve_context(store, req.prompt, k=top_k, ctx_tokens=ctx_toks, tok=tok)
     return ctx, refs
 
-
 @app.post("/generate")
 def generate(req: GenReq):
     tok, mdl = get_models()
-
     context_block, refs = _maybe_with_rag(req, tok, mdl)
-
     sys_txt = "You are a helpful, concise assistant. Do not repeat system instructions or role words."
     if context_block:
         sys_txt += " You may use the CONTEXT below to answer.\n[CONTEXT]\n" + context_block
-
     messages = [{"role": "system", "content": sys_txt}, {"role": "user", "content": req.prompt.strip()}]
-
     prompt = tok.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
     inputs = tok(prompt, return_tensors="pt").to(mdl.device)
 
@@ -201,7 +189,6 @@ def generate(req: GenReq):
             if isinstance(r, dict) and "text" in r
         ]
     return out
-
 
 @app.post("/rag/generate")
 def rag_generate(req: GenReq):

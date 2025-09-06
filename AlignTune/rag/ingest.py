@@ -37,7 +37,6 @@ def _strip_html(s: str) -> str:
         return re.sub(r"<[^>]+>", " ", s)
 
 def load_docs(src: str | Path) -> List[Tuple[str, str]]:
-    """Load raw (path, text) pairs from a directory or glob."""
     src = str(src)
     paths: List[str] = []
     if os.path.isdir(src):

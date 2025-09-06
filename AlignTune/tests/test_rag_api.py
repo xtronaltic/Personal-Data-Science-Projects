@@ -1,14 +1,10 @@
 import types
-
 import torch
-
 import api.server as srv
-
 
 class _Batch(dict):
     def to(self, device):
         return self
-
 
 class FakeTok:
     eos_token_id = 1
@@ -25,31 +21,24 @@ class FakeTok:
     def decode(self, ids, skip_special_tokens=True):
         return "hello world"
 
-
 class FakeModel:
     def __init__(self):
         self.device = torch.device("cpu")
 
     def generate(self, **kwargs):
-        # produce 3 input tokens + 3 new tokens
         return torch.tensor([[2, 3, 4, 5, 6, 7]], dtype=torch.long)
 
-
 def test_api_generate_rag_off(monkeypatch):
-    # monkeypatch model/tokenizer
     monkeypatch.setattr(srv, "get_models", lambda: (FakeTok(), FakeModel()))
     req = srv.GenReq(prompt="Say hi")
     out = srv.generate(req)
     assert isinstance(out, dict)
     assert "output" in out
 
-
 def test_api_generate_rag_on_without_index(monkeypatch):
-    # If no index is present, RAG gracefully falls back
     monkeypatch.setattr(srv, "get_models", lambda: (FakeTok(), FakeModel()))
     monkeypatch.setattr(srv, "_HAS_RAG", False)
     req = srv.GenReq(prompt="What is AlignTune?", rag=True, collection="missing")
     out = srv.generate(req)
     assert isinstance(out, dict)
     assert "output" in out
-

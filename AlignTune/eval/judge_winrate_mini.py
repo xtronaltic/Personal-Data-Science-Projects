@@ -126,7 +126,7 @@ def main():
     ap.add_argument("--temp", type=float, default=0.0, help="candidate generation temperature")
     ap.add_argument("--max_new", type=int, default=256)
     ap.add_argument("--judge_temp", type=float, default=0.0)
-    ap.add_argument("--symmetric", action="store_true", help="judge both A>B and B>A and average win rates")
+    ap.add_argument("--symmetric", action="store_true", help="judge both A>B and B>A; pool non-tie decisions from both directions")
     ap.add_argument("--seed", type=int, default=42)
     ap.add_argument("--save_cases", default=None, help="optional path to save per-case JSONL")
     args = ap.parse_args()
@@ -175,7 +175,7 @@ def main():
         return "T"
 
     winsA = winsB = ties = 0
-    cases = []
+    cases_first = []
     for (p, aA, aB) in pairs:
         res = judge(p, aA, aB)
         if res == "A":
@@ -185,24 +185,67 @@ def main():
         else:
             ties += 1
         if args.save_cases:
-            cases.append({"prompt": p, "A": aA, "B": aB, "judge": res})
+            cases_first.append({"prompt": p, "A": aA, "B": aB, "judge": res})
+
+    winsA_first, winsB_first, ties_first = winsA, winsB, ties
+    winsA_second = winsB_second = ties_second = 0
+
+    cases_both = []
+    if args.save_cases:
+        for idx, (p, aA, aB) in enumerate(pairs):
+            res = cases_first[idx]["judge"] if idx < len(cases_first) else "T"
+            if res == "A":
+                winner_model = "model_a"
+            elif res == "B":
+                winner_model = "model_b"
+            else:
+                winner_model = "tie"
+            cases_both.append({
+                "pair_index": idx,
+                "direction": "A>B",
+                "prompt": p,
+                "A": aA,
+                "B": aB,
+                "judge": res,
+                "winner_model": winner_model,
+            })
 
     if args.symmetric:
-        winsA2 = winsB2 = ties2 = 0
-        for (p, aA, aB) in pairs:
+        for idx, (p, aA, aB) in enumerate(pairs):
             res2 = judge(p, aB, aA)
             if res2 == "A":
-                winsB2 += 1
+                winsB_second += 1
             elif res2 == "B":
-                winsA2 += 1
+                winsA_second += 1
             else:
-                ties2 += 1
-        winsA = (winsA + winsA2) // 1 
-        winsB = (winsB + winsB2) // 1
+                ties_second += 1
+
+            if args.save_cases:
+                if res2 == "A":
+                    winner_model = "model_b" 
+                elif res2 == "B":
+                    winner_model = "model_a"
+                else:
+                    winner_model = "tie"
+                cases_both.append({
+                    "pair_index": idx,
+                    "direction": "B>A",
+                    "prompt": p,
+                    "A": aB,  
+                    "B": aA,
+                    "judge": res2,
+                    "winner_model": winner_model,
+                })
+
+        winsA = winsA_first + winsA_second
+        winsB = winsB_first + winsB_second
+        ties = ties_first + ties_second  
 
     n_eff = max(1, winsA + winsB)
     pA = winsA / n_eff
-    ci_low, ci_high = ci_normal(pA, n_eff)
+    pB = winsB / n_eff
+    ci_low_a, ci_high_a = ci_normal(pA, n_eff)
+    ci_low_b, ci_high_b = ci_normal(pB, n_eff)
 
     os.makedirs("reports", exist_ok=True)
     out = {
@@ -213,18 +256,32 @@ def main():
         "wins_b": winsB,
         "ties": ties,
         "win_rate_a": pA,
-        "ci_low": ci_low,
-        "ci_high": ci_high,
+        "ci_low_a": ci_low_a,
+        "ci_high_a": ci_high_a,
+        "win_rate_b": pB,
+        "ci_low_b": ci_low_b,
+        "ci_high_b": ci_high_b,
         "judge": args.judge,
         "temp": args.temp,
         "prompts_source": ("long100" if args.use_long100 else (args.prompts_file or "builtin")),
         "symmetric": args.symmetric,
+        "pooling": ("pooled_counts" if args.symmetric else "single_pass"),
+        "n_eff": n_eff,
     }
+
+    out.update({
+        "wins_a_first": winsA_first,
+        "wins_b_first": winsB_first,
+        "ties_first": ties_first,
+        "wins_a_second": winsA_second,
+        "wins_b_second": winsB_second,
+        "ties_second": ties_second,
+    })
     with open("reports/judge_winrate.json", "w", encoding="utf-8") as f:
         json.dump(out, f, indent=2)
     if args.save_cases:
         with open(args.save_cases, "w", encoding="utf-8") as f:
-            for c in cases:
+            for c in cases_both:
                 f.write(json.dumps(c, ensure_ascii=False) + "\n")
     print(json.dumps(out, indent=2))
 
