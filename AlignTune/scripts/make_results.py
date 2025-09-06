@@ -95,9 +95,11 @@ def main():
         lines.append(
             f"{a} vs {b}: {wr_a*100:.1f}% win for {a} (95% CI: {ci_la*100:.1f}–{ci_ha*100:.1f}%)."
         )
+        lines.append("")
         lines.append(
             f"{b} vs {a}: {wr_b*100:.1f}% win for {b} (95% CI: {ci_lb*100:.1f}–{ci_hb*100:.1f}%)."
         )
+        lines.append("")
         if symmetric:
             lines.append(f"Ties (pooled across both directions): {ties}/{2*N}.")
         else:
