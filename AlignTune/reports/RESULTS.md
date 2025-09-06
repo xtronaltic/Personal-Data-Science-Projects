@@ -19,7 +19,9 @@
 ## Judge Win-Rate
 
 Llama-3.1-8B-Instruct-lora vs Llama-3.1-8B-Instruct-lora-dpo: 46.5% win for Llama-3.1-8B-Instruct-lora (95% CI: 44.0–49.1%).
+
 Llama-3.1-8B-Instruct-lora-dpo vs Llama-3.1-8B-Instruct-lora: 53.5% win for Llama-3.1-8B-Instruct-lora-dpo (95% CI: 50.9–56.0%).
+
 Ties (pooled across both directions): 560/2000.
 
 ## Safety Quick-Check
