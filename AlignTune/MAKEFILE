@@ -6,28 +6,20 @@ dpo: ; ALIGNTUNE_OPTIM_8BIT=1 ALIGNTUNE_USE_GC=1 TOKENIZERS_PARALLELISM=false py
 simpo: ; ALIGNTUNE_OPTIM_8BIT=1 ALIGNTUNE_USE_GC=1 TOKENIZERS_PARALLELISM=false python -m scripts.train_pref --config configs/base.yaml --preset balanced --algo simpo --beta 2.0 --sft_ckpt outputs/sft/Llama-3.1-8B-Instruct-lora --autosave_steps 50
 orpo: ; ALIGNTUNE_OPTIM_8BIT=1 ALIGNTUNE_USE_GC=1 TOKENIZERS_PARALLELISM=false python -m scripts.train_pref --config configs/base.yaml --preset balanced --algo orpo --sft_ckpt outputs/sft/Llama-3.1-8B-Instruct-lora --autosave_steps 50
 eval: ; python -m scripts.eval --config configs/base.yaml --ckpt outputs/dpo/Llama-3.1-8B-Instruct-lora-dpo
-judge: ; TOKENIZERS_PARALLELISM=false python -m eval.judge_winrate_mini --ckpt_a outputs/dpo/Llama-3.1-8B-Instruct-lora-dpo --ckpt_b outputs/sft/Llama-3.1-8B-Instruct-lora --prompts_file eval/prompts/prompts_1000.txt --n 1000 --temp 0.0 --symmetric --save_cases reports/judge_cases.1000.jsonl
+judge-prompts: ; python -m data.build_judge_random_1000
+judge: ; TOKENIZERS_PARALLELISM=false python -m eval.judge_winrate_mini --ckpt_a outputs/sft/Llama-3.1-8B-Instruct-lora --ckpt_b outputs/dpo/Llama-3.1-8B-Instruct-lora-dpo --prompts_file eval/prompts/prompts_1000.txt --n 1000 --temp 0.0 --judge_mode score --score_tiebreaker --score_epsilon 0.5 --save_cases reports/judge_cases.1000.jsonl
+judge-only: ; TOKENIZERS_PARALLELISM=false python -m eval.judge_winrate_mini --judge_only_cases reports/judge_cases.1000.jsonl --n 1000 --judge meta-llama/Llama-3.2-1B-Instruct --temp 0.0 --judge_mode score --score_epsilon 0.5 --score_tiebreaker
 safety: ; TOKENIZERS_PARALLELISM=false python -m eval.safety_check --ckpt outputs/dpo/Llama-3.1-8B-Instruct-lora-dpo
 serve: ; uvicorn api.server:app --reload
-demo: ; python -m app.demo --model outputs/dpo/merged
+demo: ; python -m app.demo --ckpt outputs/dpo/Llama-3.1-8B-Instruct-lora-dpo --base meta-llama/Llama-3.1-8B-Instruct
 lint: ; flake8 scripts api app eval
 test: ; pytest -q
-test-fast: ; BASE=TinyLlama/TinyLlama-1.1B-Chat-v1.0 pytest -q Dev/AlignTune/tests
+test-fast: ; BASE=TinyLlama/TinyLlama-1.1B-Chat-v1.0 pytest -q tests
 results: ; python -m scripts.make_results --ablation reports/ablation_summary.json --eval reports/eval_report.json --out_md reports/RESULTS.md
 portfolio: ; python -m scripts.portfolio_export --out ./portfolio.zip
 eval-split: ; python -m scripts.split_jsonl_eval --inp data/pack/sft.jsonl --out data/pack/sft.eval.jsonl --n 400 --bins 5
 data-sft-fast: ; python -m data.build_sft_pack --preset fast --out data/pack/sft.fast.jsonl
 data-dpo-fast: ; python -m data.build_dpo_ufb_only --preset fast --out data/pack/dpo.fast.jsonl
-judge-prompts:
-	python -m data.build_judge_random_1000
-judge-long100:
-	TOKENIZERS_PARALLELISM=false python -m eval.judge_winrate_mini --use_long100 --ckpt_a outputs/sft/Llama-3.1-8B-Instruct-lora --ckpt_b outputs/dpo/Llama-3.1-8B-Instruct-lora-dpo --prompts_file eval/prompts/prompts_1000.txt --n 1000 --temp 0.0 --symmetric --save_cases reports/judge_cases.1000.jsonl
-judge-sft-vs-simpo:
-	TOKENIZERS_PARALLELISM=false python -m eval.judge_winrate_mini --ckpt_a outputs/sft/Llama-3.1-8B-Instruct-lora --ckpt_b outputs/simpo/Llama-3.1-8B-Instruct-lora-simpo --prompts_file eval/prompts/prompts_1000.txt --n 1000 --temp 0.0 --symmetric --save_cases reports/judge_cases.1000.jsonl
-judge-simpo-vs-dpo:
-	TOKENIZERS_PARALLELISM=false python -m eval.judge_winrate_mini --ckpt_a outputs/simpo/Llama-3.1-8B-Instruct-lora-simpo --ckpt_b outputs/dpo/Llama-3.1-8B-Instruct-lora-dpo --prompts_file eval/prompts/prompts_1000.txt --n 1000 --temp 0.0 --symmetric --save_cases reports/judge_cases.1000.jsonl
-judge-tinyllama:
-	TOKENIZERS_PARALLELISM=false python -m eval.judge_winrate_mini --judge TinyLlama/TinyLlama-1.1B-Chat-v1.0 --ckpt_a outputs/sft/Llama-3.1-8B-Instruct-lora --ckpt_b outputs/dpo/Llama-3.1-8B-Instruct-lora-dpo --prompts_file eval/prompts/prompts_1000.txt --n 1000 --temp 0.0 --symmetric --save_cases reports/judge_cases.1000.jsonl
 
 ############################################################
 # RAG add-on
@@ -53,7 +45,7 @@ train-full_eval-balanced:
 	TOKENIZERS_PARALLELISM=false python -m scripts.mine_hard_pairs --ckpt outputs/simpo/Llama-3.1-8B-Instruct-lora-simpo --in_file data/pack/dpo.jsonl --out_file data/pack/dpo.hard15k.jsonl --top_k 15000 --max_length 1024
 	ALIGNTUNE_OPTIM_8BIT=1 ALIGNTUNE_USE_GC=1 TOKENIZERS_PARALLELISM=false python -m scripts.train_pref --config configs/base.yaml --preset balanced --algo dpo --beta 0.1 --sft_ckpt outputs/simpo/Llama-3.1-8B-Instruct-lora-simpo --train_file data/pack/dpo.hard15k.jsonl --autosave_steps 50
 	TOKENIZERS_PARALLELISM=false python -m scripts.run_ablation --config configs/base.yaml --ckpt outputs/sft/Llama-3.1-8B-Instruct-lora outputs/simpo/Llama-3.1-8B-Instruct-lora-simpo outputs/dpo/Llama-3.1-8B-Instruct-lora-dpo --labels SFT SimPO DPO
-	TOKENIZERS_PARALLELISM=false python -m eval.judge_winrate_mini --ckpt_a outputs/sft/Llama-3.1-8B-Instruct-lora --ckpt_b outputs/dpo/Llama-3.1-8B-Instruct-lora-dpo --prompts_file eval/prompts/prompts_1000.txt --n 1000 --temp 0.0 --symmetric --save_cases reports/judge_cases.1000.jsonl
+	TOKENIZERS_PARALLELISM=false python -m eval.judge_winrate_mini --ckpt_a outputs/sft/Llama-3.1-8B-Instruct-lora --ckpt_b outputs/dpo/Llama-3.1-8B-Instruct-lora-dpo --prompts_file eval/prompts/prompts_1000.txt --n 1000 --temp 0.0 --judge_mode score --score_tiebreaker --score_epsilon 0.5 --save_cases reports/judge_cases.1000.jsonl
 	TOKENIZERS_PARALLELISM=false python -m eval.safety_check --ckpt_a outputs/sft/Llama-3.1-8B-Instruct-lora --ckpt_b outputs/dpo/Llama-3.1-8B-Instruct-lora-dpo
 	python -m scripts.make_results --ablation reports/ablation_summary.json --eval reports/eval_report.json --out_md reports/RESULTS.md
 	python -m scripts.portfolio_export --out ./portfolio.zip
@@ -67,7 +59,7 @@ build-train-full_eval-balanced:
 	TOKENIZERS_PARALLELISM=false python -m scripts.mine_hard_pairs --ckpt outputs/simpo/Llama-3.1-8B-Instruct-lora-simpo --in_file data/pack/dpo.jsonl --out_file data/pack/dpo.hard15k.jsonl --top_k 15000 --max_length 1024
 	ALIGNTUNE_OPTIM_8BIT=1 ALIGNTUNE_USE_GC=1 TOKENIZERS_PARALLELISM=false python -m scripts.train_pref --config configs/base.yaml --preset balanced --algo dpo --beta 0.1 --sft_ckpt outputs/simpo/Llama-3.1-8B-Instruct-lora-simpo --train_file data/pack/dpo.hard15k.jsonl --autosave_steps 50
 	TOKENIZERS_PARALLELISM=false python -m scripts.run_ablation --config configs/base.yaml --ckpt outputs/sft/Llama-3.1-8B-Instruct-lora outputs/simpo/Llama-3.1-8B-Instruct-lora-simpo outputs/dpo/Llama-3.1-8B-Instruct-lora-dpo --labels SFT SimPO DPO
-	TOKENIZERS_PARALLELISM=false python -m eval.judge_winrate_mini --ckpt_a outputs/sft/Llama-3.1-8B-Instruct-lora --ckpt_b outputs/dpo/Llama-3.1-8B-Instruct-lora-dpo --prompts_file eval/prompts/prompts_1000.txt --n 1000 --temp 0.0 --symmetric --save_cases reports/judge_cases.1000.jsonl
+	TOKENIZERS_PARALLELISM=false python -m eval.judge_winrate_mini --ckpt_a outputs/sft/Llama-3.1-8B-Instruct-lora --ckpt_b outputs/dpo/Llama-3.1-8B-Instruct-lora-dpo --prompts_file eval/prompts/prompts_1000.txt --n 1000 --temp 0.0 --judge_mode score --score_tiebreaker --score_epsilon 0.5 --save_cases reports/judge_cases.1000.jsonl
 	TOKENIZERS_PARALLELISM=false python -m eval.safety_check --ckpt_a outputs/sft/Llama-3.1-8B-Instruct-lora --ckpt_b outputs/dpo/Llama-3.1-8B-Instruct-lora-dpo
 	python -m scripts.make_results --ablation reports/ablation_summary.json --eval reports/eval_report.json --out_md reports/RESULTS.md
 	python -m scripts.portfolio_export --out ./portfolio.zip
@@ -79,7 +71,7 @@ build-train-full_eval-balanced-nosimpo:
 	ALIGNTUNE_OPTIM_8BIT=1 ALIGNTUNE_USE_GC=1 TOKENIZERS_PARALLELISM=false python -m scripts.train_sft --config configs/base.yaml --preset balanced --autosave_steps 50 --autosave_keep 2
 	ALIGNTUNE_OPTIM_8BIT=1 ALIGNTUNE_USE_GC=1 TOKENIZERS_PARALLELISM=false python -m scripts.train_pref --config configs/base.yaml --preset balanced --algo dpo --beta 0.1 --sft_ckpt outputs/sft/Llama-3.1-8B-Instruct-lora --train_file data/pack/dpo.jsonl --autosave_steps 50
 	python -m scripts.run_ablation --config configs/base.yaml --ckpt outputs/sft/Llama-3.1-8B-Instruct-lora outputs/dpo/Llama-3.1-8B-Instruct-lora-dpo --labels SFT DPO
-	TOKENIZERS_PARALLELISM=false python -m eval.judge_winrate_mini --ckpt_a outputs/sft/Llama-3.1-8B-Instruct-lora --ckpt_b outputs/dpo/Llama-3.1-8B-Instruct-lora-dpo --prompts_file eval/prompts/prompts_1000.txt --n 1000 --temp 0.0 --symmetric --save_cases reports/judge_cases.1000.jsonl
+	TOKENIZERS_PARALLELISM=false python -m eval.judge_winrate_mini --ckpt_a outputs/sft/Llama-3.1-8B-Instruct-lora --ckpt_b outputs/dpo/Llama-3.1-8B-Instruct-lora-dpo --prompts_file eval/prompts/prompts_1000.txt --n 1000 --temp 0.0 --judge_mode score --score_tiebreaker --score_epsilon 0.5 --save_cases reports/judge_cases.1000.jsonl
 	TOKENIZERS_PARALLELISM=false python -m eval.safety_check --ckpt_a outputs/sft/Llama-3.1-8B-Instruct-lora --ckpt_b outputs/dpo/Llama-3.1-8B-Instruct-lora-dpo
 	python -m scripts.make_results --ablation reports/ablation_summary.json --eval reports/eval_report.json --out_md reports/RESULTS.md
 	python -m scripts.portfolio_export --out ./portfolio.zip
@@ -97,7 +89,7 @@ train-credible_eval-balanced:
 	python -m scripts.build_long_eval --inp data/pack/sft.jsonl --out data/pack/sft.eval.long100.jsonl --n 100
 	TOKENIZERS_PARALLELISM=false python -m scripts.run_ablation --config configs/base.yaml --eval_file data/pack/sft.eval.400.jsonl --ckpt outputs/sft/Llama-3.1-8B-Instruct-lora outputs/simpo/Llama-3.1-8B-Instruct-lora-simpo outputs/dpo/Llama-3.1-8B-Instruct-lora-dpo --labels SFT SimPO DPO --out reports/ablation_summary.json
 	TOKENIZERS_PARALLELISM=false python -m scripts.run_ablation --config configs/base.yaml --eval_file data/pack/sft.eval.long100.jsonl --batch_size 2 --ckpt outputs/sft/Llama-3.1-8B-Instruct-lora outputs/simpo/Llama-3.1-8B-Instruct-lora-simpo outputs/dpo/Llama-3.1-8B-Instruct-lora-dpo --labels "SFT (long)" "SimPO (long)" "DPO (long)" --out reports/ablation_long_summary.json
-	TOKENIZERS_PARALLELISM=false python -m eval.judge_winrate_mini --ckpt_a outputs/sft/Llama-3.1-8B-Instruct-lora --ckpt_b outputs/dpo/Llama-3.1-8B-Instruct-lora-dpo --prompts_file eval/prompts/prompts_1000.txt --n 1000 --temp 0.0 --symmetric --save_cases reports/judge_cases.1000.jsonl
+	TOKENIZERS_PARALLELISM=false python -m eval.judge_winrate_mini --ckpt_a outputs/sft/Llama-3.1-8B-Instruct-lora --ckpt_b outputs/dpo/Llama-3.1-8B-Instruct-lora-dpo --prompts_file eval/prompts/prompts_1000.txt --n 1000 --temp 0.0 --judge_mode score --score_tiebreaker --score_epsilon 0.5 --save_cases reports/judge_cases.1000.jsonl
 	TOKENIZERS_PARALLELISM=false python -m eval.safety_check --ckpt_a outputs/sft/Llama-3.1-8B-Instruct-lora --ckpt_b outputs/dpo/Llama-3.1-8B-Instruct-lora-dpo
 	python -m scripts.make_results --ablation reports/ablation_summary.json --ablation_long reports/ablation_long_summary.json --eval reports/eval_report.json --out_md reports/RESULTS.md
 	python -m scripts.portfolio_export --out ./portfolio.zip
@@ -113,7 +105,7 @@ build-train-credible_eval-balanced:
 	python -m scripts.build_long_eval --inp data/pack/sft.jsonl --out data/pack/sft.eval.long100.jsonl --n 100
 	TOKENIZERS_PARALLELISM=false python -m scripts.run_ablation --config configs/base.yaml --eval_file data/pack/sft.eval.400.jsonl --ckpt outputs/sft/Llama-3.1-8B-Instruct-lora outputs/simpo/Llama-3.1-8B-Instruct-lora-simpo outputs/dpo/Llama-3.1-8B-Instruct-lora-dpo --labels SFT SimPO DPO --out reports/ablation_summary.json
 	TOKENIZERS_PARALLELISM=false python -m scripts.run_ablation --config configs/base.yaml --eval_file data/pack/sft.eval.long100.jsonl --batch_size 2 --ckpt outputs/sft/Llama-3.1-8B-Instruct-lora outputs/simpo/Llama-3.1-8B-Instruct-lora-simpo outputs/dpo/Llama-3.1-8B-Instruct-lora-dpo --labels "SFT (long)" "SimPO (long)" "DPO (long)" --out reports/ablation_long_summary.json
-	TOKENIZERS_PARALLELISM=false python -m eval.judge_winrate_mini --ckpt_a outputs/sft/Llama-3.1-8B-Instruct-lora --ckpt_b outputs/dpo/Llama-3.1-8B-Instruct-lora-dpo --prompts_file eval/prompts/prompts_1000.txt --n 1000 --temp 0.0 --symmetric --save_cases reports/judge_cases.1000.jsonl
+	TOKENIZERS_PARALLELISM=false python -m eval.judge_winrate_mini --ckpt_a outputs/sft/Llama-3.1-8B-Instruct-lora --ckpt_b outputs/dpo/Llama-3.1-8B-Instruct-lora-dpo --prompts_file eval/prompts/prompts_1000.txt --n 1000 --temp 0.0 --judge_mode score --score_tiebreaker --score_epsilon 0.5 --save_cases reports/judge_cases.1000.jsonl
 	TOKENIZERS_PARALLELISM=false python -m eval.safety_check --ckpt_a outputs/sft/Llama-3.1-8B-Instruct-lora --ckpt_b outputs/dpo/Llama-3.1-8B-Instruct-lora-dpo
 	python -m scripts.make_results --ablation reports/ablation_summary.json --ablation_long reports/ablation_long_summary.json --eval reports/eval_report.json --out_md reports/RESULTS.md
 	python -m scripts.portfolio_export --out ./portfolio.zip
@@ -127,7 +119,7 @@ build-train-credible_eval-balanced-nosimpo:
 	python -m scripts.build_long_eval --inp data/pack/sft.jsonl --out data/pack/sft.eval.long100.jsonl --n 100
 	TOKENIZERS_PARALLELISM=false python -m scripts.run_ablation --config configs/base.yaml --eval_file data/pack/sft.eval.400.jsonl --ckpt outputs/sft/Llama-3.1-8B-Instruct-lora outputs/dpo/Llama-3.1-8B-Instruct-lora-dpo --labels SFT DPO --out reports/ablation_summary.json
 	TOKENIZERS_PARALLELISM=false python -m scripts.run_ablation --config configs/base.yaml --eval_file data/pack/sft.eval.long100.jsonl --batch_size 2 --ckpt outputs/sft/Llama-3.1-8B-Instruct-lora outputs/dpo/Llama-3.1-8B-Instruct-lora-dpo --labels "SFT (long)" "DPO (long)" --out reports/ablation_long_summary.json
-	TOKENIZERS_PARALLELISM=false python -m eval.judge_winrate_mini --ckpt_a outputs/sft/Llama-3.1-8B-Instruct-lora --ckpt_b outputs/dpo/Llama-3.1-8B-Instruct-lora-dpo --prompts_file eval/prompts/prompts_1000.txt --n 1000 --temp 0.0 --symmetric --save_cases reports/judge_cases.1000.jsonl
+	TOKENIZERS_PARALLELISM=false python -m eval.judge_winrate_mini --ckpt_a outputs/sft/Llama-3.1-8B-Instruct-lora --ckpt_b outputs/dpo/Llama-3.1-8B-Instruct-lora-dpo --prompts_file eval/prompts/prompts_1000.txt --n 1000 --temp 0.0 --judge_mode score --score_tiebreaker --score_epsilon 0.5 --save_cases reports/judge_cases.1000.jsonl
 	TOKENIZERS_PARALLELISM=false python -m eval.safety_check --ckpt_a outputs/sft/Llama-3.1-8B-Instruct-lora --ckpt_b outputs/dpo/Llama-3.1-8B-Instruct-lora-dpo
 	python -m scripts.make_results --ablation reports/ablation_summary.json --ablation_long reports/ablation_long_summary.json --eval reports/eval_report.json --out_md reports/RESULTS.md
 	python -m scripts.portfolio_export --out ./portfolio.zip

@@ -69,6 +69,7 @@
 ## Evaluation & Reporting
 
 * Automated ablations for EM/ROUGE-L, judge flow now uses a seeded 1000-sample prompt file; judge runs support symmetric scoring and case export for qualitative review, and safety probes baked in.
+* Anti‑position bias judge: impartial, rubric‑driven comparison with strict JSON verdict (winner=A|B|tie), greedy (temp=0.0), short `max_new` to prevent babble; symmetric pooling recommended to eliminate first‑position effects.
 * Two eval modes:Full (34k) and Credible (Balanced‑400 + Long‑100) for representative reporting.
 * Results rollup: scripts.make_results creates a scannable reports/RESULTS.md.
 * Portfolio ZIP: scripts.portfolio_export bundles configs, reports, and data samples for easy sharing.

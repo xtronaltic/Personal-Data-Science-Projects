@@ -7,7 +7,7 @@ Top engineering highlights
 - Deterministic, capped packer:
   - `data/build_sft_pack.py` and `data/build_dpo_ufb_only.py` perform streaming ingestion with a fixed RNG seed (42), per-source caps, and preset-driven behavior (fast | balanced | thorough). Balanced defaults produce SFT=34k and DPO=30k for stable experiments.
 - Provenance and per-example metadata:
-  - Each output record carries provenance fields (`source`, `source_id`, and optional original metadata) so downstream audits can trace model outputs back to their origin.
+  - Each output record carries provenance fields (`source`, `source_id`) so downstream audits can trace records back to their origin. When upstream IDs are missing, a stable fallback is generated (`<hub>:<scan_index>` for SFT; `ufb:<kept_index>` for DPO) to preserve reproducibility.
 - Streaming denoising and filters:
   - Toxicity skim using a conservative blocklist and lightweight heuristics to remove explicit unsafe content early in the pipeline.
   - Near-duplicate removal via a rolling Jaccard similarity scan scoped to recent items; tuned per-preset to trade coverage vs uniqueness.
@@ -16,8 +16,8 @@ Top engineering highlights
   - Preference items normalized to {"prompt", "chosen", "rejected", "source", "source_id"} for stable trainer inputs.
 
 Processing & pack generation
-- SFT pack (`data/pack/sft.jsonl`): built from Dolly-15k, Alpaca-cleaned and optional extra sources (SlimOrca, etc.). The packer honors per-source caps and records per-source counts in process logs and per-example provenance fields.
-- Preference pack (`data/pack/dpo.jsonl`): UltraFeedback-derived pairs are denoised, normalized and capped; trimming and prompt-length caps are applied to ensure stable training behavior across batch sizes.
+- SFT pack (`data/pack/sft.jsonl`): built from Dolly-15k, Alpaca-cleaned and optional extra sources (SlimOrca, etc.). The packer honors per-source caps and records per-source counts in process logs; emitted examples include per-record provenance fields.
+- Preference pack (`data/pack/dpo.jsonl`): UltraFeedback-derived pairs are denoised, normalized and capped; trimming and prompt-length caps are applied to ensure stable training behavior across batch sizes. Emitted pairs include per-record provenance fields.
 - Credible eval splits:
   - `scripts/split_jsonl_eval.py`: length-balanced small eval (Balanced-400).
   - `scripts/build_long_eval.py`: selects top-N longest items for long-context stress tests (Long-100).

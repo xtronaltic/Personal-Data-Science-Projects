@@ -104,9 +104,22 @@ def main():
                 if sim >= NEAR_DUP_JACCARD:
                     continue
 
+            sid = (
+                ex.get("id")
+                or ex.get("pair_id")
+                or ex.get("sample_id")
+                or ex.get("source_id")
+                or f"ufb:{kept}"
+            )
             wf.write(
                 json.dumps(
-                    {"prompt": prompt_serial, "chosen": chosen, "rejected": rejected},
+                    {
+                        "prompt": prompt_serial,
+                        "chosen": chosen,
+                        "rejected": rejected,
+                        "source": "HuggingFaceH4/ultrafeedback_binarized",
+                        "source_id": sid,
+                    },
                     ensure_ascii=False,
                 )
                 + "\n"

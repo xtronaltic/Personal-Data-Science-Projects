@@ -196,7 +196,21 @@ def main():
                     if sim >= dup_thresh:
                         continue
 
-                rec = {"text": text, "instruction": instr, "input": inp, "output": ans}
+                sid = (
+                    ex.get("id")
+                    or ex.get("uid")
+                    or ex.get("source_id")
+                    or ex.get("_id")
+                    or f"{hub}:{scanned_src-1}"
+                )
+                rec = {
+                    "text": text,
+                    "instruction": instr,
+                    "input": inp,
+                    "output": ans,
+                    "source": hub,
+                    "source_id": sid,
+                }
                 wf.write(json.dumps(rec, ensure_ascii=False) + "\n")
 
                 kept_src += 1

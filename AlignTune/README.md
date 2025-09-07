@@ -12,7 +12,7 @@
 
 ## Overview:
 
-* Production‑style project showing how to train, align, and evaluate chat LLMs efficiently. Quantify gains from inserting SimPO before DPO polish and validate via automated ablation + human-style judge comparisons and safety probes. 
+* Production‑style project showing how to train, align, and evaluate chat LLMs efficiently. Quantify gains from inserting SimPO before DPO polish and validate via automated ablation + human-style judge comparisons and safety probes.
 
 ## Baseline flows:
 
@@ -80,9 +80,10 @@
 ## Evaluation & Reporting
 
 * Automated ablations for EM/ROUGE-L, judge flow now uses a seeded 1000-sample prompt file; judge runs support symmetric scoring and case export for qualitative review, and safety probes baked in.
+* Unbiased judge: Llama-3.2-1B-Instruct, score‑then‑decide with tiebreaker — impartial rubric scoring (0–10) per response (temp=0.0) with epsilon (0.5) to mitigate score scale compression, robust JSON parsing + header cleaning; Pairwise mode available, strict JSON winner (A|B|tie), anti‑position prompts, robust parsing; symmetric pooling supported when needed.
+* Additional metrics: total generated tokens and toxicity per 1k tokens are reported alongside EM/ROUGE‑L for context‑aware safety/readability comparisons.
 * Two eval modes:Full (34k) and Credible (Balanced‑400 + Long‑100) for representative reporting.
 * Results rollup: scripts.make_results creates a scannable reports/RESULTS.md.
-* Portfolio ZIP: scripts.portfolio_export bundles configs, reports, and data samples for easy sharing.
 
 ## Developer Experience
 
@@ -130,11 +131,35 @@ AlignTune ships with a production‑style RAG layer designed to be:
 
 ### Judge Win-Rate
 
-Llama-3.1-8B-Instruct-lora vs Llama-3.1-8B-Instruct-lora-dpo: 46.5% win for Llama-3.1-8B-Instruct-lora (95% CI: 44.0–49.1%).
+* Model A: Llama-3.1-8B-Instruct-lora
 
-Llama-3.1-8B-Instruct-lora-dpo vs Llama-3.1-8B-Instruct-lora: 53.5% win for Llama-3.1-8B-Instruct-lora-dpo (95% CI: 50.9–56.0%).
+* Model B: Llama-3.1-8B-Instruct-lora-dpo
 
-Ties (pooled across both directions): 560/2000.
+   * Judge mode = score, symmetric = False, pooling = single_pass
+
+   * Score settings: epsilon = 0.5, tiebreaker = True
+
+   * Decisive: 898/1000 (89.8%), ties: 102 (10.2%)
+
+   * Decisive breakdown: wins_a = 321, wins_b = 577, ties = 102
+
+   * Bootstrap: n = 2000, seed = 42
+
+      Model A win rate (decisive; normal approx): 0.3575 (95% CI [0.3261, 0.3888])
+
+      Model B win rate (decisive; normal approx): 0.6425 (95% CI [0.6112, 0.6739])
+
+      Model A win rate (decisive; bootstrap 2000): 0.3573 (95% CI [0.3252, 0.3886])
+
+      Model B win rate (decisive; bootstrap 2000): 0.6427 (95% CI [0.6114, 0.6748])
+
+* Win-rate delta (Model A - Model B):
+
+   * Normal approx -0.2851 (CI [-0.3478, -0.2224])
+
+   * Bootstrap -0.2853 (CI [-0.3497, -0.2227])
+
+     Significant preference for Model B over Model A
 
 ### Safety Quick-Check
 
@@ -142,4 +167,3 @@ Ties (pooled across both directions): 560/2000.
 |---|---:|---:|---:|---:|
 | Llama-3.1-8B-Instruct-lora | 4 | 1 | 3 | 0.25 |
 | Llama-3.1-8B-Instruct-lora-dpo | 4 | 1 | 4 | 0.00 |
-

@@ -31,7 +31,8 @@ Evaluation & reporting
 - Two canonical eval modes:
   - Credible eval: balanced small eval (Balanced-400) + long-context stress set (Long-100).
   - Full eval: ablation across the full SFT pack (34k) for final reporting.
-- Judge: Llama-3.2-1B-Instruct (greedy, temp=0.0) used in batched comparisons; scripts live in `eval/` and `scripts/` and results are rolled up into `reports/RESULTS.md`.
+- Metrics: EM, ROUGE‑L, toxicity flags, plus total generated tokens and toxicity per 1k tokens for length‑normalized safety.
+- Unbiased judge: Llama-3.2-1B-Instruct, score‑then‑decide with tiebreaker — impartial rubric scoring (0–10) per response (temp=0.0) with epsilon (0.5) to mitigate score scale compression, robust JSON parsing + header cleaning; optional single head‑to‑head tiebreak for equal scores by calling the pairwise judge once with random A/B order. Pairwise mode available, strict JSON winner (A|B|tie), anti‑position prompts, robust parsing; symmetric pooling supported when needed. Scripts live in `eval/` and `scripts/`; results roll up into `reports/RESULTS.md`.
 
 Safety & limitations
 - The repo applies a lightweight toxicity skim and a small demo blocklist but does not claim production-level safety. Downstream deployments must add stronger safety layers and PII checks.

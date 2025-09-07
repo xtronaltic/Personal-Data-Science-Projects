@@ -49,6 +49,7 @@ def main():
     pipe = pipeline("text-generation", model=model, tokenizer=tok, device_map="auto")
 
     ems, rouges, tox = [], [], 0
+    total_generated_tokens = 0
     gen_cfg = cfg.get("generation", {})
 
     for ex in ds:
@@ -66,12 +67,18 @@ def main():
         rouges.append(rouge_l(pred, ex["output"]))
         if safety_flag(pred):
             tox += 1
+        try:
+            total_generated_tokens += len(tok(pred, add_special_tokens=False)["input_ids"]) 
+        except Exception:
+            pass
 
     report = {
         "n": len(ds),
         "exact_match": float(np.mean(ems)),
         "rougeL": float(np.mean(rouges)),
         "toxic_flags": int(tox),
+        "total_generated_tokens": int(total_generated_tokens),
+        "toxicity_per_1k_tokens": (float(tox) / max(1.0, float(total_generated_tokens) / 1000.0)),
     }
 
     os.makedirs("reports", exist_ok=True)
