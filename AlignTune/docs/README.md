@@ -1,14 +1,14 @@
-# AlignTune: Modern LLM Fine‑Tuning & Preference Optimization
+# AlignTune - Config-Driven SimPO → DPO LLM Alignment + RAG
 
 ## Overview:
 
-* Production‑style project showing how to train, align, and evaluate chat LLMs efficiently. Quantify gains from inserting SimPO before DPO polish and validate via automated ablation + human-style judge comparisons and safety probes. 
+* Production‑style project showing how to train, align, and evaluate chat LLMs efficiently. Quantify gains from inserting SimPO before DPO polish and validate via automated ablation + LLM-as-judge evaluation with a human-style rubric and safety probes.
 
 ## Baseline flows:
 
 * SFT → SimPO → mine hard pairs → short DPO polish
 * ORPO
-   * Supported: Yes — scripts/train_pref.py implements --algo orpo and Makefile has orpo target..
+   * Supported: Yes — scripts/train_pref.py implements --algo orpo and Makefile has orpo target.
    * Not in default E2E flows, balanced and nosimpo don’t include ORPO by default. I can add it to ablations if a 3‑way comparison is needed.
 
 ## End‑to‑End engineering:
@@ -68,11 +68,11 @@
 
 ## Evaluation & Reporting
 
-* Automated ablations for EM/ROUGE-L, judge flow now uses a seeded 1000-sample prompt file; judge runs support symmetric scoring and case export for qualitative review, and safety probes baked in.
-* Anti‑position bias judge: impartial, rubric‑driven comparison with strict JSON verdict (winner=A|B|tie), greedy (temp=0.0), short `max_new` to prevent babble; symmetric pooling recommended to eliminate first‑position effects.
-* Two eval modes:Full (34k) and Credible (Balanced‑400 + Long‑100) for representative reporting.
+* Automated ablations for EM/ROUGE-L, judge flow now uses a seeded 1000-sample prompt file; judge runs scoring and case export for qualitative review, and safety probes baked in.
+* Unbiased judge: Llama-3.2-1B-Instruct, score‑then‑decide with tiebreaker — impartial rubric scoring (0–10) per response (temp=0.0) with epsilon (0.5) to mitigate score scale compression, robust JSON parsing + header cleaning; Pairwise mode available, strict JSON winner (A|B|tie), anti‑position prompts, robust parsing; symmetric pooling supported when needed.
+* Additional metrics: Total generated tokens and toxicity per 1k tokens are reported alongside EM/ROUGE‑L for context‑aware safety/readability comparisons.
+* Two eval modes: Full (34k) and Credible (Balanced‑400 + Long‑100) for representative reporting.
 * Results rollup: scripts.make_results creates a scannable reports/RESULTS.md.
-* Portfolio ZIP: scripts.portfolio_export bundles configs, reports, and data samples for easy sharing.
 
 ## Developer Experience
 
