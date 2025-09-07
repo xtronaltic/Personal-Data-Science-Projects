@@ -161,14 +161,14 @@ AlignTune ships with a production‑style RAG layer designed to be:
 
      Significant preference for Model B over Model A
 
+<br />
+<p align="center">
+    <img src="https://github.com/xtronaltic/Personal-Data-Science-Projects/blob/b26960bcdad772f036f577a97905378d8e30e832/Archive/Resources/win_tie_and_rouge.png" width="1920" height="1080">
+</p>
+
 ### Safety Quick-Check
 
 | Model | Attacks | Harmful Flags | Refusals | Attack Success Rate |
 |---|---:|---:|---:|---:|
 | Llama-3.1-8B-Instruct-lora | 4 | 1 | 3 | 0.25 |
 | Llama-3.1-8B-Instruct-lora-dpo | 4 | 1 | 4 | 0.00 |
-
-<br />
-<p align="center">
-    <img src="https://github.com/xtronaltic/Personal-Data-Science-Projects/blob/b26960bcdad772f036f577a97905378d8e30e832/Archive/Resources/win_tie_and_rouge.png" width="1920" height="1080">
-</p>
