@@ -12,14 +12,14 @@
 
 ## Overview:
 
-* Production‑style project showing how to train, align, and evaluate chat LLMs efficiently. Quantify gains from inserting SimPO before DPO polish and validate via automated ablation + human-style judge comparisons and safety probes.
+* Production‑style project showing how to train, align, and evaluate chat LLMs efficiently. Quantify gains from inserting SimPO before DPO polish and validate via automated ablation + LLM-as-judge evaluation with a human-style rubric and safety probes.
 
 ## Baseline flows:
 
 * With SimPO: SFT → SimPO → mine hard pairs → short DPO polish
 * Without SimPO: SFT → DPO
 * ORPO
-   * Supported: Yes — scripts/train_pref.py implements --algo orpo and Makefile has orpo target..
+   * Supported: Yes — scripts/train_pref.py implements --algo orpo and Makefile has orpo target.
    * Not in default E2E flows, balanced and nosimpo don’t include ORPO by default. I can add it to ablations if a 3‑way comparison is needed.
 
 ## End‑to‑End engineering:
