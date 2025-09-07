@@ -79,7 +79,7 @@
 
 ## Evaluation & Reporting
 
-* Automated ablations for EM/ROUGE-L, judge flow now uses a seeded 1000-sample prompt file; judge runs support symmetric scoring and case export for qualitative review, and safety probes baked in.
+* Automated ablations for EM/ROUGE-L, judge flow now uses a seeded 1000-sample prompt file; judge runs scoring and case export for qualitative review, and safety probes baked in.
 * Unbiased judge: Llama-3.2-1B-Instruct, score‑then‑decide with tiebreaker — impartial rubric scoring (0–10) per response (temp=0.0) with epsilon (0.5) to mitigate score scale compression, robust JSON parsing + header cleaning; Pairwise mode available, strict JSON winner (A|B|tie), anti‑position prompts, robust parsing; symmetric pooling supported when needed.
 * Additional metrics: Total generated tokens and toxicity per 1k tokens are reported alongside EM/ROUGE‑L for context‑aware safety/readability comparisons.
 * Two eval modes: Full (34k) and Credible (Balanced‑400 + Long‑100) for representative reporting.
