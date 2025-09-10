@@ -1,7 +1,7 @@
 .PHONY: sft dpo simpo orpo eval judge safety serve demo lint test test-fast data-sft-fast data-dpo-fast results portfolio eval-split \
  train-full_eval-balanced build-train-full_eval-balanced build-train-full_eval-balanced-nosimpo \
  train-credible_eval-balanced build-train-credible_eval-balanced build-train-credible_eval-balanced-nosimpo
-sft: ; ALIGNTUNE_OPTIM_8BIT=1 ALIGNTUNE_USE_GC=1 TOKENIZERS_PARALLELISM=false python -m scripts.train_sft --config configs/base.yaml --preset balanced --autosave_steps 50 --autosave_keep 2
+sft: ; ALIGNTUNE_OPTIM_8BIT=1 ALIGNTUNE_USE_GC=1 TOKENIZERS_PARALLELISM=false python -m scripts.train_sft --config configs/base.yaml --preset balanced --assistant_only_loss --autosave_steps 50 --autosave_keep 2
 dpo: ; ALIGNTUNE_OPTIM_8BIT=1 ALIGNTUNE_USE_GC=1 TOKENIZERS_PARALLELISM=false python -m scripts.train_pref --config configs/base.yaml --preset balanced --algo dpo --beta 0.1 --sft_ckpt outputs/sft/Llama-3.1-8B-Instruct-lora --autosave_steps 50
 simpo: ; ALIGNTUNE_OPTIM_8BIT=1 ALIGNTUNE_USE_GC=1 TOKENIZERS_PARALLELISM=false python -m scripts.train_pref --config configs/base.yaml --preset balanced --algo simpo --beta 2.0 --sft_ckpt outputs/sft/Llama-3.1-8B-Instruct-lora --autosave_steps 50
 orpo: ; ALIGNTUNE_OPTIM_8BIT=1 ALIGNTUNE_USE_GC=1 TOKENIZERS_PARALLELISM=false python -m scripts.train_pref --config configs/base.yaml --preset balanced --algo orpo --sft_ckpt outputs/sft/Llama-3.1-8B-Instruct-lora --autosave_steps 50
@@ -19,7 +19,9 @@ results: ; python -m scripts.make_results --ablation reports/ablation_summary.js
 portfolio: ; python -m scripts.portfolio_export --out ./portfolio.zip
 eval-split: ; python -m scripts.split_jsonl_eval --inp data/pack/sft.jsonl --out data/pack/sft.eval.jsonl --n 400 --bins 5
 data-sft-fast: ; python -m data.build_sft_pack --preset fast --out data/pack/sft.fast.jsonl
-data-dpo-fast: ; python -m data.build_dpo_ufb_only --preset fast --out data/pack/dpo.fast.jsonl
+data-dpo-fast: ; python -m data.build_dpo_ufb_only --preset fast --out data/pack/dpo.fast.jsonl --strict_clean
+dpo-audit: ; python -m data.audit_data_leaks --file data/pack/dpo.jsonl
+merge-lora: ; python -m scripts.merge_lora --base meta-llama/Llama-3.1-8B-Instruct --lora outputs/dpo/Llama-3.1-8B-Instruct-lora-dpo --out outputs/merged/DPO-merged --dtype bf16
 
 ############################################################
 # RAG add-on
@@ -40,7 +42,7 @@ serve-rag:
 
 # SFT -> SimPO -> mine -> DPO polish (balanced) — Full Eval (34k)
 train-full_eval-balanced:
-	ALIGNTUNE_OPTIM_8BIT=1 ALIGNTUNE_USE_GC=1 TOKENIZERS_PARALLELISM=false python -m scripts.train_sft --config configs/base.yaml --preset balanced --autosave_steps 50 --autosave_keep 2
+	ALIGNTUNE_OPTIM_8BIT=1 ALIGNTUNE_USE_GC=1 TOKENIZERS_PARALLELISM=false python -m scripts.train_sft --config configs/base.yaml --preset balanced --assistant_only_loss --autosave_steps 50 --autosave_keep 2
 	ALIGNTUNE_OPTIM_8BIT=1 ALIGNTUNE_USE_GC=1 TOKENIZERS_PARALLELISM=false python -m scripts.train_pref --config configs/base.yaml --preset balanced --algo simpo --beta 2.0 --sft_ckpt outputs/sft/Llama-3.1-8B-Instruct-lora --autosave_steps 50
 	TOKENIZERS_PARALLELISM=false python -m scripts.mine_hard_pairs --ckpt outputs/simpo/Llama-3.1-8B-Instruct-lora-simpo --in_file data/pack/dpo.jsonl --out_file data/pack/dpo.hard15k.jsonl --top_k 15000 --max_length 1024
 	ALIGNTUNE_OPTIM_8BIT=1 ALIGNTUNE_USE_GC=1 TOKENIZERS_PARALLELISM=false python -m scripts.train_pref --config configs/base.yaml --preset balanced --algo dpo --beta 0.1 --sft_ckpt outputs/simpo/Llama-3.1-8B-Instruct-lora-simpo --train_file data/pack/dpo.hard15k.jsonl --autosave_steps 50
@@ -53,8 +55,8 @@ train-full_eval-balanced:
 # Build data (balanced) then run SFT -> SimPO -> mine -> DPO polish — Full Eval (34k)
 build-train-full_eval-balanced:
 	MAX_SFT=34000 python -m data.build_sft_pack --preset balanced --out data/pack/sft.jsonl
-	python -m data.build_dpo_ufb_only --preset balanced --out data/pack/dpo.jsonl
-	ALIGNTUNE_OPTIM_8BIT=1 ALIGNTUNE_USE_GC=1 TOKENIZERS_PARALLELISM=false python -m scripts.train_sft --config configs/base.yaml --preset balanced --autosave_steps 50 --autosave_keep 2
+	python -m data.build_dpo_ufb_only --preset balanced --out data/pack/dpo.jsonl --strict_clean
+	ALIGNTUNE_OPTIM_8BIT=1 ALIGNTUNE_USE_GC=1 TOKENIZERS_PARALLELISM=false python -m scripts.train_sft --config configs/base.yaml --preset balanced --assistant_only_loss --autosave_steps 50 --autosave_keep 2
 	ALIGNTUNE_OPTIM_8BIT=1 ALIGNTUNE_USE_GC=1 TOKENIZERS_PARALLELISM=false python -m scripts.train_pref --config configs/base.yaml --preset balanced --algo simpo --beta 2.0 --sft_ckpt outputs/sft/Llama-3.1-8B-Instruct-lora --autosave_steps 50
 	TOKENIZERS_PARALLELISM=false python -m scripts.mine_hard_pairs --ckpt outputs/simpo/Llama-3.1-8B-Instruct-lora-simpo --in_file data/pack/dpo.jsonl --out_file data/pack/dpo.hard15k.jsonl --top_k 15000 --max_length 1024
 	ALIGNTUNE_OPTIM_8BIT=1 ALIGNTUNE_USE_GC=1 TOKENIZERS_PARALLELISM=false python -m scripts.train_pref --config configs/base.yaml --preset balanced --algo dpo --beta 0.1 --sft_ckpt outputs/simpo/Llama-3.1-8B-Instruct-lora-simpo --train_file data/pack/dpo.hard15k.jsonl --autosave_steps 50
@@ -67,8 +69,8 @@ build-train-full_eval-balanced:
 # Same as above but skips SimPO (SFT -> mine -> DPO polish) — Full Eval (34k)
 build-train-full_eval-balanced-nosimpo:
 	MAX_SFT=34000 python -m data.build_sft_pack --preset balanced --out data/pack/sft.jsonl
-	python -m data.build_dpo_ufb_only --preset balanced --out data/pack/dpo.jsonl
-	ALIGNTUNE_OPTIM_8BIT=1 ALIGNTUNE_USE_GC=1 TOKENIZERS_PARALLELISM=false python -m scripts.train_sft --config configs/base.yaml --preset balanced --autosave_steps 50 --autosave_keep 2
+	python -m data.build_dpo_ufb_only --preset balanced --out data/pack/dpo.jsonl --strict_clean
+	ALIGNTUNE_OPTIM_8BIT=1 ALIGNTUNE_USE_GC=1 TOKENIZERS_PARALLELISM=false python -m scripts.train_sft --config configs/base.yaml --preset balanced --assistant_only_loss --autosave_steps 50 --autosave_keep 2
 	ALIGNTUNE_OPTIM_8BIT=1 ALIGNTUNE_USE_GC=1 TOKENIZERS_PARALLELISM=false python -m scripts.train_pref --config configs/base.yaml --preset balanced --algo dpo --beta 0.1 --sft_ckpt outputs/sft/Llama-3.1-8B-Instruct-lora --train_file data/pack/dpo.jsonl --autosave_steps 50
 	python -m scripts.run_ablation --config configs/base.yaml --ckpt outputs/sft/Llama-3.1-8B-Instruct-lora outputs/dpo/Llama-3.1-8B-Instruct-lora-dpo --labels SFT DPO
 	TOKENIZERS_PARALLELISM=false python -m eval.judge_winrate_mini --ckpt_a outputs/sft/Llama-3.1-8B-Instruct-lora --ckpt_b outputs/dpo/Llama-3.1-8B-Instruct-lora-dpo --prompts_file eval/prompts/prompts_1000.txt --n 1000 --temp 0.0 --judge_mode score --score_tiebreaker --score_epsilon 0.5 --save_cases reports/judge_cases.1000.jsonl
@@ -81,7 +83,7 @@ build-train-full_eval-balanced-nosimpo:
 ############################################################
 
 train-credible_eval-balanced:
-	ALIGNTUNE_OPTIM_8BIT=1 ALIGNTUNE_USE_GC=1 TOKENIZERS_PARALLELISM=false python -m scripts.train_sft --config configs/base.yaml --preset balanced --autosave_steps 50 --autosave_keep 2
+	ALIGNTUNE_OPTIM_8BIT=1 ALIGNTUNE_USE_GC=1 TOKENIZERS_PARALLELISM=false python -m scripts.train_sft --config configs/base.yaml --preset balanced --assistant_only_loss --autosave_steps 50 --autosave_keep 2
 	ALIGNTUNE_OPTIM_8BIT=1 ALIGNTUNE_USE_GC=1 TOKENIZERS_PARALLELISM=false python -m scripts.train_pref --config configs/base.yaml --preset balanced --algo simpo --beta 2.0 --sft_ckpt outputs/sft/Llama-3.1-8B-Instruct-lora --autosave_steps 50
 	TOKENIZERS_PARALLELISM=false python -m scripts.mine_hard_pairs --ckpt outputs/simpo/Llama-3.1-8B-Instruct-lora-simpo --in_file data/pack/dpo.jsonl --out_file data/pack/dpo.hard15k.jsonl --top_k 15000 --max_length 1024
 	ALIGNTUNE_OPTIM_8BIT=1 ALIGNTUNE_USE_GC=1 TOKENIZERS_PARALLELISM=false python -m scripts.train_pref --config configs/base.yaml --preset balanced --algo dpo --beta 0.1 --sft_ckpt outputs/simpo/Llama-3.1-8B-Instruct-lora-simpo --train_file data/pack/dpo.hard15k.jsonl --autosave_steps 50
@@ -96,8 +98,8 @@ train-credible_eval-balanced:
 
 build-train-credible_eval-balanced:
 	MAX_SFT=34000 python -m data.build_sft_pack --preset balanced --out data/pack/sft.jsonl
-	python -m data.build_dpo_ufb_only --preset balanced --out data/pack/dpo.jsonl
-	ALIGNTUNE_OPTIM_8BIT=1 ALIGNTUNE_USE_GC=1 TOKENIZERS_PARALLELISM=false python -m scripts.train_sft --config configs/base.yaml --preset balanced --autosave_steps 50 --autosave_keep 2
+	python -m data.build_dpo_ufb_only --preset balanced --out data/pack/dpo.jsonl --strict_clean
+	ALIGNTUNE_OPTIM_8BIT=1 ALIGNTUNE_USE_GC=1 TOKENIZERS_PARALLELISM=false python -m scripts.train_sft --config configs/base.yaml --preset balanced --assistant_only_loss --autosave_steps 50 --autosave_keep 2
 	ALIGNTUNE_OPTIM_8BIT=1 ALIGNTUNE_USE_GC=1 TOKENIZERS_PARALLELISM=false python -m scripts.train_pref --config configs/base.yaml --preset balanced --algo simpo --beta 2.0 --sft_ckpt outputs/sft/Llama-3.1-8B-Instruct-lora --autosave_steps 50
 	TOKENIZERS_PARALLELISM=false python -m scripts.mine_hard_pairs --ckpt outputs/simpo/Llama-3.1-8B-Instruct-lora-simpo --in_file data/pack/dpo.jsonl --out_file data/pack/dpo.hard15k.jsonl --top_k 15000 --max_length 1024
 	ALIGNTUNE_OPTIM_8BIT=1 ALIGNTUNE_USE_GC=1 TOKENIZERS_PARALLELISM=false python -m scripts.train_pref --config configs/base.yaml --preset balanced --algo dpo --beta 0.1 --sft_ckpt outputs/simpo/Llama-3.1-8B-Instruct-lora-simpo --train_file data/pack/dpo.hard15k.jsonl --autosave_steps 50
@@ -112,8 +114,8 @@ build-train-credible_eval-balanced:
 
 build-train-credible_eval-balanced-nosimpo:
 	MAX_SFT=34000 python -m data.build_sft_pack --preset balanced --out data/pack/sft.jsonl
-	python -m data.build_dpo_ufb_only --preset balanced --out data/pack/dpo.jsonl
-	ALIGNTUNE_OPTIM_8BIT=1 ALIGNTUNE_USE_GC=1 TOKENIZERS_PARALLELISM=false python -m scripts.train_sft --config configs/base.yaml --preset balanced --autosave_steps 50 --autosave_keep 2
+	python -m data.build_dpo_ufb_only --preset balanced --out data/pack/dpo.jsonl --strict_clean
+	ALIGNTUNE_OPTIM_8BIT=1 ALIGNTUNE_USE_GC=1 TOKENIZERS_PARALLELISM=false python -m scripts.train_sft --config configs/base.yaml --preset balanced --assistant_only_loss --autosave_steps 50 --autosave_keep 2
 	ALIGNTUNE_OPTIM_8BIT=1 ALIGNTUNE_USE_GC=1 TOKENIZERS_PARALLELISM=false python -m scripts.train_pref --config configs/base.yaml --preset balanced --algo dpo --beta 0.1 --sft_ckpt outputs/sft/Llama-3.1-8B-Instruct-lora --train_file data/pack/dpo.jsonl --autosave_steps 50
 	python -m scripts.split_jsonl_eval --inp data/pack/sft.jsonl --out data/pack/sft.eval.400.jsonl --n 400 --bins 8
 	python -m scripts.build_long_eval --inp data/pack/sft.jsonl --out data/pack/sft.eval.long100.jsonl --n 100

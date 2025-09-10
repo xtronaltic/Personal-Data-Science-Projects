@@ -22,7 +22,7 @@
 
 * Streaming ingestion: Hugging Face datasets processed in a memory‑safe way.
 * Sensible defaults: Balanced preset capped ~34k SFT; DPO ~30k.
-* Quality filters: Simple toxicity skim + banned template stems; near‑dup removal via Jaccard.
+* Quality filters: Simple toxicity skim + banned template stems; near‑dup removal via Jaccard; DPO strict clean to drop scaffolded answers and prompt‑echo pairs. 
 * Preset caps: Fast/balanced/thorough sizes; per‑source caps; progress logs; bounded scans for predictability.
 * Data formats:
    * SFT (data/sft/*.jsonl): { "instruction", "input", "output" }
@@ -64,7 +64,7 @@
    * VRAM: 4-bit model + 8-bit Adam + grad checkpointing
    * Training: Autosave + emergency snapshots + CLI overrides + ETA logging
    * Inference: Left-padding + SDPA backend + batched eval
-   * Efficiency: 4‑bit base loading, length grouping, and near‑dup windows tuned per preset; fail‑soft behavior skips problematic sources, logs progress, and stops on caps reliably, preset-driven pref_max_seq_len and pref_max_prompt_len to control memory and prompt context per run, DPO advanced flags support precompute_ref_log_probs and reference_free modes (configurable per-preset) to trade compute vs determinism.
+   * Efficiency: 4‑bit base loading, length grouping, and near‑dup windows tuned per preset; fail‑soft behavior skips problematic sources, logs progress, and stops on caps reliably, preset-driven pref_max_seq_len and pref_max_prompt_len to control memory and prompt context per run, DPO advanced flags support precompute_ref_log_probs and reference_free modes (configurable per-preset) to trade compute vs determinism, assistant‑only loss masking (SFT), reducing template/role echoes without changing data. 
 
 ## Evaluation & Reporting
 

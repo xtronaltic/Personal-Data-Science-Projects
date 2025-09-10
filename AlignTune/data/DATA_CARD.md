@@ -11,6 +11,7 @@ Top engineering highlights
 - Streaming denoising and filters:
   - Toxicity skim using a conservative blocklist and lightweight heuristics to remove explicit unsafe content early in the pipeline.
   - Near-duplicate removal via a rolling Jaccard similarity scan scoped to recent items; tuned per-preset to trade coverage vs uniqueness.
+  - DPO strict clean: drops UltraFeedback pairs with scaffold markers (e.g., “Instructions:/Input:/Output:”, bracketed/XML-ish tags) or high prompt–answer overlap; the builder continues streaming to refill to the cap.
 - Schema harmonization and normalization:
   - SFT items normalized into a standard chat template: {"instruction", "input", "output", "source", "source_id"}.
   - Preference items normalized to {"prompt", "chosen", "rejected", "source", "source_id"} for stable trainer inputs.
@@ -18,6 +19,7 @@ Top engineering highlights
 Processing & pack generation
 - SFT pack (`data/pack/sft.jsonl`): built from Dolly-15k, Alpaca-cleaned and optional extra sources (SlimOrca, etc.). The packer honors per-source caps and records per-source counts in process logs; emitted examples include per-record provenance fields.
 - Preference pack (`data/pack/dpo.jsonl`): UltraFeedback-derived pairs are denoised, normalized and capped; trimming and prompt-length caps are applied to ensure stable training behavior across batch sizes. Emitted pairs include per-record provenance fields.
+- Assistant-only loss masking: SFT training can be configured to compute loss only on assistant spans using the Llama chat boundary; this reduces learned template/role echoes without changing the SFT pack itself.
 - Credible eval splits:
   - `scripts/split_jsonl_eval.py`: length-balanced small eval (Balanced-400).
   - `scripts/build_long_eval.py`: selects top-N longest items for long-context stress tests (Long-100).
@@ -36,11 +38,12 @@ Operational engineering choices
 Reproducibility
 - Inputs: raw source datasets (Dolly, Alpaca, UltraFeedback or local equivalents), `data/build_sft_pack.py`, `data/build_dpo_ufb_only.py`, `configs/base.yaml` (preset controls), and seed=42.
 - Outputs: `data/pack/sft.jsonl` (34,000 examples) and `data/pack/dpo.jsonl` (30,000 pairs). Per-source counts are available from packer logs and per-example provenance fields in the emitted JSONL.
+ - Optional switches: `--strict_clean` (or `DPO_STRICT_CLEAN=1`) for DPO building; `--assistant_only_loss` for SFT training. An audit helper (`scripts/audit_data_leaks.py`) to measure contamination.
 
 How this data design helps model engineering
 - Predictable experiments: fixed caps and presets make every run comparable.
 - Rapid iteration: small, credible eval splits and long-context subsets enable quick hypothesis testing without running the full-scale pipeline.
-- Auditability: provenance fields per example enable tracing and downstream bias/error analysis.
+- Auditability: provenance fields per example enable tracing and downstream bias/error analysis. 
 
 Provenance, licensing and redistribution notes
 - The packer preserves source attribution per item so license adherence can be enforced. The repository itself is MIT, but original dataset licenses may restrict redistribution or require attribution—inspect source metadata when reproducing or publishing packs.

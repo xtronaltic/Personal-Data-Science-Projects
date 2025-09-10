@@ -12,19 +12,30 @@ MAX_DPO = int(os.environ.get("MAX_DPO", "60000"))
 NEAR_DUP_WINDOW = int(os.environ.get("DPO_NEAR_DUP_WINDOW", "20000"))
 NEAR_DUP_JACCARD = float(os.environ.get("DPO_NEAR_DUP_JACCARD", "0.85"))
 
-BAN_RE = re.compile(
-    r"(answer briefly|you are a helpful|rewrite to be more professional|"
-    r"summarize the key idea|turn bullets into a short paragraph|"
-    r"turns out you can turn bullets)",
-    re.I,
-)
-TOX_RE = re.compile(r"(kill|hate|violence|bomb|weapon|attack)", re.I)
+BAN_STEMS = [
+    "answer briefly",
+    "you are a helpful",
+    "rewrite to be more professional",
+    "summarize the key idea",
+    "turn bullets into a short paragraph",
+    "turns out you can turn bullets",
+]
+BAN_RE = re.compile(r"\b(" + "|".join(map(re.escape, BAN_STEMS)) + r")\b", re.IGNORECASE)
+
+TOXIC_STEMS = [
+    "kill",
+    "hate",
+    "violence",
+    "bomb",
+    "weapon",
+    "attack",
+]
+TOX_RE = re.compile(r"\b(" + "|".join(map(re.escape, TOXIC_STEMS)) + r")\b", re.IGNORECASE)
 
 def denoise(s: str) -> str:
     return BAN_RE.sub("", (s or "")).strip()
 
 def to_str(x):
-    """Normalize list/dict/str -> str (pick the best textual content)."""
     if x is None:
         return ""
     if isinstance(x, str):
@@ -58,6 +69,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--preset", choices=["fast", "balanced", "thorough"], default="balanced")
     ap.add_argument("--out", default="data/pack/dpo.jsonl")
+    ap.add_argument("--strict_clean", action="store_true", help="Drop scaffold/echo pairs and high prompt-overlap responses")
     args = ap.parse_args()
 
     preset_sizes = {
@@ -76,6 +88,7 @@ def main():
 
     kept = 0
     recent_prompts = []
+    dropped_scaffold = 0
 
     with out_path.open("w", encoding="utf-8") as wf:
         ds = load_dataset("HuggingFaceH4/ultrafeedback_binarized", split="train_prefs", streaming=True)
@@ -98,6 +111,30 @@ def main():
                 {"role": "user", "content": prompt},
             ]
             prompt_serial = tok.apply_chat_template(msgs, tokenize=False, add_generation_prompt=True)
+
+            strict = bool(args.strict_clean or os.environ.get("DPO_STRICT_CLEAN") in ("1", "true", "True"))
+            if strict:
+                SCAF_RE = re.compile(
+                    r"(?is)\b(?:instructions?|input|output)\s*:|" 
+                    r"\[/?(?:instruction|response|input)\]|"       
+                    r"###\s*(?:instruction|response)|"           
+                    r"<<\s*sys\s*>>|<</\s*sys\s*>>|"            
+                    r"<\|/?(?:system|assistant|user|eot_id)\|>|"   
+                    r"</?s>"                                       
+                )
+                def _looks_scaffold(s: str) -> bool:
+                    return bool(SCAF_RE.search(s or ""))
+
+                def _jacc(a: str, b: str) -> float:
+                    return jaccard(a.lower(), b.lower())
+
+                if _looks_scaffold(chosen) or _looks_scaffold(rejected):
+                    dropped_scaffold += 1
+                    continue
+
+                if max(_jacc(prompt_serial, chosen), _jacc(prompt_serial, rejected)) >= 0.6:
+                    dropped_scaffold += 1
+                    continue
 
             if recent_prompts:
                 sim = max(jaccard(prompt_serial.lower(), p) for p in recent_prompts[-NEAR_DUP_WINDOW:])
@@ -129,12 +166,18 @@ def main():
             recent_prompts.append(prompt_serial.lower())
 
             if kept % 2000 == 0:
-                print(f"[DPO/UFB] kept {kept}", flush=True)
+                if strict:
+                    print(f"[DPO/UFB] kept {kept} (strict_dropped={dropped_scaffold})", flush=True)
+                else:
+                    print(f"[DPO/UFB] kept {kept}", flush=True)
 
             if kept >= max_dpo:
                 break
 
-    print(f"[DPO] wrote {kept} pairs -> {out_path}")
+    if strict:
+        print(f"[DPO] wrote {kept} pairs (strict_dropped={dropped_scaffold}) -> {out_path}")
+    else:
+        print(f"[DPO] wrote {kept} pairs -> {out_path}")
 
 if __name__ == "__main__":
     main()

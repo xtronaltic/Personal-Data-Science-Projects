@@ -95,13 +95,13 @@ def main():
     ap.add_argument("--autosave_steps", type=int, default=100)
     ap.add_argument("--autosave_keep", type=int, default=2)
     ap.add_argument("--no_autosave", action="store_true")
+    ap.add_argument("--assistant_only_loss", action="store_true", help="Mask loss to assistant spans only (response-only training)")
     args = ap.parse_args()
 
     cfg = load_cfg(args.config)
     preset = args.preset or cfg.get("preset", "balanced")
 
     def pick(x):
-        """Return value for the current preset if x is a dict; else return x."""
         return x.get(preset, next(iter(x.values()))) if isinstance(x, dict) else x
 
     unsloth_len = int(pick(cfg["unsloth"]["max_seq_len"]))
@@ -219,6 +219,13 @@ def main():
     if "max_seq_length" in _tr_sig.parameters:
         trainer_kwargs["max_seq_length"] = sft_maxseq
 
+    RESP_TMPL = "<|start_header_id|>assistant<|end_header_id|>\n\n"
+    if args.assistant_only_loss:
+        if "response_template" in _tr_sig.parameters:
+            trainer_kwargs["response_template"] = RESP_TMPL
+        if "train_on_inputs" in _tr_sig.parameters:
+            trainer_kwargs["train_on_inputs"] = False
+
     if _HAS_SFTCONFIG:
         import inspect as _insp
 
@@ -246,6 +253,11 @@ def main():
         )
         if "max_seq_length" in _cfg_sig.parameters:
             cfg_dict["max_seq_length"] = sft_maxseq
+        if args.assistant_only_loss:
+            if "train_on_inputs" in _cfg_sig.parameters:
+                cfg_dict["train_on_inputs"] = False
+            if "response_template" in _cfg_sig.parameters:
+                cfg_dict["response_template"] = RESP_TMPL
         sft_args = SFTConfig(**{k: v for k, v in cfg_dict.items() if k in _cfg_sig.parameters})
         trainer = SFTTrainer(args=sft_args, **trainer_kwargs)
     else:

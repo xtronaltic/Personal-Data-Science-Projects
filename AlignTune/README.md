@@ -33,7 +33,7 @@
 
 * Streaming ingestion: Hugging Face datasets processed in a memory‑safe way.
 * Sensible defaults: Balanced preset capped ~34k SFT; DPO ~30k.
-* Quality filters: Simple toxicity skim + banned template stems; near‑dup removal via Jaccard.
+* Quality filters: Simple toxicity skim + banned template stems; near‑dup removal via Jaccard; DPO strict clean to drop scaffolded answers and prompt‑echo pairs. 
 * Preset caps: Fast/balanced/thorough sizes; per‑source caps; progress logs; bounded scans for predictability.
 * Data formats:
    * SFT (data/sft/*.jsonl): { "instruction", "input", "output" }
@@ -75,7 +75,7 @@
    * VRAM: 4-bit model + 8-bit Adam + grad checkpointing
    * Training: Autosave + emergency snapshots + CLI overrides + ETA logging
    * Inference: Left-padding + SDPA backend + batched eval
-   * Efficiency: 4‑bit base loading, length grouping, and near‑dup windows tuned per preset; fail‑soft behavior skips problematic sources, logs progress, and stops on caps reliably, preset-driven pref_max_seq_len and pref_max_prompt_len to control memory and prompt context per run, DPO advanced flags support precompute_ref_log_probs and reference_free modes (configurable per-preset) to trade compute vs determinism.
+   * Efficiency: 4‑bit base loading, length grouping, and near‑dup windows tuned per preset; fail‑soft behavior skips problematic sources, logs progress, and stops on caps reliably, preset-driven pref_max_seq_len and pref_max_prompt_len to control memory and prompt context per run, DPO advanced flags support precompute_ref_log_probs and reference_free modes (configurable per-preset) to trade compute vs determinism, assistant‑only loss masking (SFT), reducing template/role echoes without changing data. 
 
 ## Evaluation & Reporting
 
@@ -139,25 +139,25 @@ AlignTune ships with a production‑style RAG layer designed to be:
 
    * Score settings: epsilon = 0.5, tiebreaker = True
 
-   * Decisive: 898/1000 (89.8%), ties: 102 (10.2%)
+   * Decisive: 912/1000 (91.2%), ties: 88 (8.8%)
 
-   * Decisive breakdown: wins_a = 321, wins_b = 577, ties = 102
+   * Decisive breakdown: wins_a = 320, wins_b = 592, ties = 88
 
    * Bootstrap: n = 2000, seed = 42
 
-      Model A win rate (decisive; normal approx): 0.3575 (95% CI [0.3261, 0.3888])
+      Model A win rate (decisive; normal approx): 0.3509 (95% CI [0.3199, 0.3819])
 
-      Model B win rate (decisive; normal approx): 0.6425 (95% CI [0.6112, 0.6739])
+      Model B win rate (decisive; normal approx): 0.6491 (95% CI [0.6181, 0.6801])
 
-      Model A win rate (decisive; bootstrap 2000): 0.3573 (95% CI [0.3252, 0.3886])
+      Model A win rate (decisive; bootstrap 2000): 0.3508 (95% CI [0.3191, 0.3838])
 
-      Model B win rate (decisive; bootstrap 2000): 0.6427 (95% CI [0.6114, 0.6748])
+      Model B win rate (decisive; bootstrap 2000): 0.6492 (95% CI [0.6162, 0.6809])
 
 * Win-rate delta (Model A - Model B):
 
-   * Normal approx -0.2851 (CI [-0.3478, -0.2224])
+   * Normal approx -0.2982 (CI [-0.3602, -0.2363])
 
-   * Bootstrap -0.2853 (CI [-0.3497, -0.2227])
+   * Bootstrap -0.2984 (CI [-0.3618, -0.2325])
 
      Significant preference for Model B over Model A
 

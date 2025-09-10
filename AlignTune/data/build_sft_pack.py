@@ -22,7 +22,7 @@ BAN_STEMS = [
     "turn bullets into a short paragraph",
     "turns out you can turn bullets",
 ]
-BAN_RE = re.compile("|".join([re.escape(s) for s in BAN_STEMS]), re.IGNORECASE)
+BAN_RE = re.compile(r"\b(" + "|".join(map(re.escape, BAN_STEMS)) + r")\b", re.IGNORECASE)
 
 TOXIC_STEMS = [
     "kill",
@@ -32,7 +32,7 @@ TOXIC_STEMS = [
     "weapon",
     "attack",
 ]
-TOX_RE = re.compile("|".join([re.escape(s) for s in TOXIC_STEMS]), re.IGNORECASE)
+TOX_RE = re.compile(r"\b(" + "|".join(map(re.escape, TOXIC_STEMS)) + r")\b", re.IGNORECASE)
 
 SOURCES = [
     ("databricks/databricks-dolly-15k", "train"),
