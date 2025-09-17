@@ -121,7 +121,6 @@ def _norm_text(x):
     return str(x)
 
 def _ensure_pref_columns(ds, tok, system_txt):
-    """Ensure dataset has {prompt, chosen, rejected}. If not, build from instruction/input."""
     cols = set(ds.column_names)
     if {"prompt", "chosen", "rejected"}.issubset(cols):
 
@@ -153,9 +152,6 @@ def _ensure_pref_columns(ds, tok, system_txt):
     return ds.map(to_pref, remove_columns=drop_cols or None)
 
 def _add_prompt_lengths_for_grouping(ds, tok):
-    """Add a lightweight 'length' column for bucketing; avoid adding input_ids to
-    prevent interfering with TRL trainers' internal tokenization/collation.
-    """
 
     def _batched(batch):
         toks = tok(batch["prompt"], add_special_tokens=False, padding=False, truncation=False)
@@ -190,7 +186,6 @@ def load_base_and_tok(base):
     return mdl, tok
 
 class SafeSaveCallback(TrainerCallback):
-    """Lightweight LoRA-only snapshot every N steps, with rotation."""
 
     def __init__(self, model, tok, out_dir, every_steps=100, keep_last=2):
         self.model = model
@@ -247,7 +242,6 @@ class ETACallback(TrainerCallback):
         return control
 
 def emergency_save(model, tok, out_dir):
-    """Best-effort save even if we hit an unexpected exception or signal."""
     try:
         path = Path(out_dir) / "checkpoint-last"
         path_tmp = Path(out_dir) / ".checkpoint-last-tmp"
