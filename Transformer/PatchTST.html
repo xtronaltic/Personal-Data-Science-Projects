@@ -8582,7 +8582,6 @@ $$</p>
     <span class="k">return</span> <span class="n">offs</span>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">apply_temperature</span><span class="p">(</span><span class="n">p10</span><span class="p">,</span> <span class="n">p50</span><span class="p">,</span> <span class="n">p90</span><span class="p">,</span> <span class="n">tau</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">"""Widen/narrow symmetrically around p50."""</span>
     <span class="n">p10</span><span class="p">,</span> <span class="n">p50</span><span class="p">,</span> <span class="n">p90</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">p10</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">p50</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">p90</span><span class="p">)</span>
     <span class="n">lo</span> <span class="o">=</span> <span class="n">p50</span> <span class="o">-</span> <span class="n">p10</span>
     <span class="n">hi</span> <span class="o">=</span> <span class="n">p90</span> <span class="o">-</span> <span class="n">p50</span>
@@ -8591,8 +8590,6 @@ $$</p>
     <span class="k">return</span> <span class="n">new_p10</span><span class="p">,</span> <span class="n">new_p90</span>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">fit_tau</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">p10</span><span class="p">,</span> <span class="n">p50</span><span class="p">,</span> <span class="n">p90</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="mf">0.80</span><span class="p">,</span> <span class="n">lo</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">hi</span><span class="o">=</span><span class="mf">1.6</span><span class="p">,</span> <span class="n">iters</span><span class="o">=</span><span class="mi">20</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">"""Binary search τ so central coverage ≈ target, with the *same*</span>
-<span class="sd">    order-enforcement used in eval/export."""</span>
     <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">iters</span><span class="p">):</span>
         <span class="n">mid</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">lo</span> <span class="o">+</span> <span class="n">hi</span><span class="p">)</span>
@@ -9935,12 +9932,12 @@ Mean |error| for Baseline → Uncalibrated → Calibrated. Separates gains from 
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Future-export-(multi-year,-residual-consistent)">Future export (multi-year, residual-consistent)<a class="anchor-link" href="#Future-export-(multi-year,-residual-consistent)">¶</a></h2><p>Forecast in <strong>52-week blocks</strong>:</p>
+<h2 id="Future-export-(multi-year,-residual-consistent)">Future export (multi-year, residual-consistent)<a class="anchor-link" href="#Future-export-(multi-year,-residual-consistent)">¶</a></h2><p>Forecast in 52-week blocks:</p>
 <ol>
 <li>Build window at the cursor,</li>
-<li>Predict residual quantiles → inverse-scale → <strong>add baseline</strong> for that future block,</li>
-<li>Apply <strong>the same</strong> $(a_h,b_h,\delta_h,\tau)$ calibration,</li>
-<li>Write the block (P10/P50/P90) and <strong>overwrite timeline P50</strong> so future <code>lag52</code> stays consistent.</li>
+<li>Predict residual quantiles → inverse-scale → add baseline for that future block,</li>
+<li>Apply the same $(a_h,b_h,\delta_h,\tau)$ calibration,</li>
+<li>Write the block (P10/P50/P90) and overwrite timeline P50 so future <code>lag52</code> stays consistent.</li>
 </ol>
 <p>This preserves the residual framing deep into the horizon.</p>
 </div>
