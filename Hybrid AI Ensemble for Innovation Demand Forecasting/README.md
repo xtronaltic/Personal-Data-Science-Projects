@@ -135,5 +135,5 @@ Produce technical diagrams and system specifications for engineering audit.
 
 <br />
 <p align="center">
-    <img src="Archive/Resources/Hybrid AI Ensemble.png" width="1920" height="1080">
+    <img src="/Archive/Resources/Hybrid%20AI%20Ensemble.png" width="1920" height="1080">
 </p>
