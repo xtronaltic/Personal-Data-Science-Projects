@@ -1,0 +1,39 @@
+# RetailPanel Innovation Forecast - Dependencies
+# ======================================
+#
+# INSTALLATION INSTRUCTIONS (WSL / Linux):
+#
+# 1. GPU (CUDA 12.1) - Recommended:
+#    python -m pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+#    python -m pip install -r requirements.txt
+#
+# 2. CPU (Fallback):
+#    python -m pip install torch torchvision torchaudio
+#    python -m pip install -r requirements.txt
+#
+
+# --- Core Data Science ---
+numpy==2.1.3
+pandas==2.3.3
+scikit-learn==1.8.0
+scipy==1.17.0
+
+# --- Forecasting Foundation Models ---
+# Note: Install PyTorch first using the instructions above.
+torch==2.5.1+cu121; sys_platform == 'linux'
+torchvision==0.20.1+cu121; sys_platform == 'linux'
+torchaudio==2.5.1+cu121; sys_platform == 'linux'
+
+neuralforecast==3.1.2
+timesfm[torch]==1.3.0
+chronos-forecasting==2.2.2
+xgboost==3.1.3
+
+# --- IO & Reporting ---
+openpyxl==3.1.5
+reportlab==4.4.7
+matplotlib==3.10.8
+
+# --- Utilities ---
+tqdm==4.67.1
+joblib==1.5.3
