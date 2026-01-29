@@ -1,0 +1,14 @@
+{
+  "panel_file_sha256": "2bcec27149fb589f0f8e0b0e942cdffd102b2307035d41d710cca454b9ff066d",
+  "panel_file_sha256_ts": "2026-01-28T18:00:47Z",
+  "scalers_fingerprint": "b638fff52e745f83af3897c699ac1e7455e7fb716cc236f982ec6792e379b91b",
+  "scalers_built_ts": "2026-01-28T18:00:46Z",
+  "dist_lib_fingerprint": "d572a01fad4f863229c0ed9614c0717d973f7de2eb0ea3fdf66b2ebe4b644b0d",
+  "dist_lib_built_ts": "2026-01-28T18:00:47Z",
+  "vel_lib_fingerprint": "c382ae0bca95046f464152584d37215e893b9baf9ea8dedc679c0ceda604c42f",
+  "vel_lib_built_ts": "2026-01-28T18:00:47Z",
+  "similarity_dist_fingerprint": "2f05c4c3466ba2e73348a926fad365d64a558b00d00b9b8211300a5c56de8d1e",
+  "similarity_dist_built_ts": "2026-01-28T18:00:47Z",
+  "similarity_vel_fingerprint": "57d19cc115305841aa5a4f897840262a8cdc3605cdd0c0b4fb385f48c0aa94d6",
+  "similarity_vel_built_ts": "2026-01-28T18:00:47Z"
+}
