@@ -19,14 +19,6 @@
   - Post-calibration WMAPE 0.276% (≈ −48% vs baseline, −53% vs uncalibrated), Central-80% = 78.85% at τ=1.282 (near target), with tight bands (~1.43% of P50) and stable rolling results (K=5, WMAPE 0.276–0.313%). 
   - Residualization on lag-52 seasonal baseline → dilated conv stem + Transformer encoder + patch tokenization → adaptive quantile head trained with weighted pinball + aux P50 MSE + monotonicity penalty → horizon-wise linear calibration + temperature scaling.
   - Deterministic seeds, mixed-precision, train-only scalers, order enforcement for P10/P50/P90, rolling backtests with RMSE/MAE/WMAPE and band diagnostics, plus exportable artifacts for BI integration and reporting. 
-
-* [Hybrid AI Ensemble for Innovation Demand Forecasting — Horizon-Aware Hybrid Ensemble (Analog kNN + TimesFM + Chronos-Bolt) + Context-Aware Calibration (conditional conformal)](./Hybrid%20AI%20Ensemble%20for%20Innovation%20Demand%20Forecasting)
-
-  - Zero-shot launch forecasting: predicts demand for brand-new innovations with no historical data, using only ~4 weeks of early-read sales; standardized production entry point + IO templates for repeatable runs.
-  - Horizon-aware stacking: XGBoost meta-learner trains on LOBO backtest residuals to dynamically weight base models by horizon/volatility/trend; delivers ~68% improvement in interval efficiency (relative interval width).
-  - Context-aware uncertainty: conditional conformal prediction where intervals expand/contract based on “signal quality” (not just historical error), sustaining ~89% coverage.
-  - Proven + production-ready: validated on 5,500+ launch simulations (LOBO) with WMAPE 16.39%, 88.93% coverage (80% PI), and 47% narrower relative width; includes case-study tooling + executive PDF readiness/architecture reports + full retrain-from-scratch pipeline.
-
 * [Local–Global Hybrid Forecasting: CNN → BiLSTM → Multi-Head Attention](./CNN%20BiLSTM%20Attention)
   - Beat seasonal-naïve with a calibrated hybrid (CNN→BiLSTM→Attention): WMAPE −28.12% (0.379 vs 0.527) and RMSE −23.62% (721,562 vs 944,726) after bias fixes & α-blend; auto “Champion” = DL_linear_cal; R² 0.94 vs 0.89 baseline.
   - 486,169 params; ASHA search (150 epochs, bracket 4) → CNN 64×5, BiLSTM 100, MHA 2 heads / key_dim 32, dropout 0.2; deterministic skill tables for WMAPE/RMSE/MAE/MASE/R².
